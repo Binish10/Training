@@ -25,7 +25,7 @@ No build step, no dependencies. Create `.nojekyll` in GitHub with **Add file →
 
 **Bump `const C` in `sw.js` on every change to `index.html`.**
 
-Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v7`.
+Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v8`.
 
 After a design or icon change, delete the home screen icon and re-add it — the version bump refreshes the page but not always the icon.
 
@@ -48,7 +48,7 @@ Import validates the payload and skips malformed session records. Unparseable fi
 ## What's in it
 
 - **Today** — reads the day, loads that session, fields prefill from last time. Five block types: sets, kettlebell complexes, run intervals, foot contacts, and tick-only for recovery days. Friday is hidden until week 3 and alternates plyometrics and cones.
-- **Manual** — 67 diagrams in collapsible sections, plus a "Learn these first" list.
+- **Manual** — 67 diagrams in collapsible sections, each with a Watch link, plus a curated "Learn these first" list of 12.
 - **History** — sparklines for pull-ups, push-ups, kettlebell rounds, sprint reps and steps.
 - **Data** — start date, export, import, storage usage, erase.
 - **Rest timer** — 10s to 3m. Timestamp-based, so locking the phone doesn't break it. Shows on Today, and follows you across tabs while running.
@@ -58,7 +58,9 @@ Import validates the payload and skips malformed session records. Unparseable fi
 
 `PLAN` near the top of the script is the single source of truth. Each block's `ex` field points at a diagram by slug, matching `figure[data-ex]` in the manual, so diagrams exist once.
 
-`LEARN` holds the video links. These are YouTube **search URLs**, never video IDs — videos get deleted and privatised, search queries don't rot. To add one, give it an `ex` slug that matches a diagram and it appears both on the block header and in the Learn section automatically.
+`VIDEO` maps every diagram slug to a YouTube **search query** — never a video ID, because videos get deleted and privatised while search queries don't rot. Add a slug there and a Watch link appears automatically on that diagram and on any block using it. Queries are written to land on instructional results ("pigeon pose hip stretch how to", not "pigeon") because bare names return workout compilations.
+
+`LEARN` is the curated subset shown in the Manual's "Learn these first" section — the movements where the timing matters and a diagram can't convey it. Each needs a `why` line describing what to watch for.
 
 Week number, run stage and step target all derive from the start date in the Data tab.
 

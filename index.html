@@ -1841,33 +1841,111 @@ function ensureSession(date){
    a search query never rots. Only the movements where timing matters —
    a still diagram shows the position but not the rhythm. */
 const YT = 'https://www.youtube.com/results?search_query=';
+
+/* A search query for every movement. Queries are written to land on
+   instructional results — "how to" and "technique" rather than the bare
+   name, which for stretches returns workout compilations instead. */
+const VIDEO = {
+  'pull-up':'pull up proper form full range technique',
+  'negative-pull-up':'negative pull up eccentric beginner progression',
+  'push-up-on-the-board':'push up board how to use color coded',
+  'rod-bent-over-row':'barbell bent over row technique',
+  'rod-overhead-press':'standing barbell overhead press technique',
+  'band-face-pull':'band face pull technique posture',
+  'rod-rdl':'romanian deadlift RDL technique',
+  'y-t-w-raise':'prone Y T W raise shoulder exercise',
+  'run-walk-stride':'running form cadence 180 midfoot beginner',
+  'clean':'hardstyle kettlebell clean technique',
+  'overhead-press':'kettlebell overhead press technique',
+  'goblet-squat':'goblet squat technique',
+  'single-arm-row':'single arm kettlebell row technique',
+  'swing':'hardstyle kettlebell swing hinge technique',
+  'high-pull':'kettlebell high pull technique',
+  'push-press':'kettlebell push press technique',
+  'reverse-lunge':'reverse lunge technique',
+  'racked-carry':'kettlebell rack carry technique',
+  'rod-front-squat':'barbell front squat technique elbows high',
+  'split-squat':'split squat technique',
+  'rod-floor-press':'barbell floor press technique',
+  'parachute-sprint':'resistance parachute sprint training drills',
+  'broad-jump':'broad jump landing technique plyometrics',
+  'cone-or-hurdle-hop':'hurdle hops plyometric drill technique',
+  'lateral-bound':'lateral bound plyometric drill technique',
+  'easy-walk':'brisk walking form posture technique',
+  'ankle-circles':'ankle mobility circles warm up drill',
+  'calf-raises':'calf raise technique',
+  'leg-swings-forward-and-back':'leg swings dynamic warm up front to back',
+  'leg-swings-side-to-side':'lateral leg swings dynamic warm up',
+  'high-knee-to-knee-hug':'walking knee hug dynamic warm up drill',
+  'walking-butt-kicks':'butt kicks running drill technique',
+  'bodyweight-squat':'bodyweight squat technique',
+  'strides-friday-only':'running strides how to do them',
+  'arm-circles':'arm circles shoulder warm up',
+  'shoulder-dislocates':'shoulder dislocates band pass through mobility',
+  'cat-cow':'cat cow stretch how to',
+  'bird-dog':'bird dog exercise technique core',
+  'scapular-pull-up':'scapular pull up how to',
+  'incline-push-up':'incline push up form beginner',
+  'worlds-greatest-stretch':'worlds greatest stretch how to',
+  'bodyweight-hip-hinge':'hip hinge drill how to learn',
+  'squat-with-pause':'paused bodyweight squat mobility drill',
+  'kettlebell-halo':'kettlebell halo exercise how to',
+  'light-swings-6-kg':'kettlebell swing warm up light technique',
+  'wall-calf-knee-straight':'gastrocnemius calf stretch wall straight knee',
+  'wall-calf-knee-bent':'soleus calf stretch bent knee wall',
+  'kneeling-hip-flexor':'kneeling hip flexor stretch how to',
+  'standing-hamstring-hinge':'standing hamstring stretch hinge how to',
+  'pigeon-or-figure-4':'pigeon pose hip stretch how to figure 4',
+  'standing-quad-stretch':'standing quad stretch how to',
+  'doorway-chest-stretch':'doorway chest stretch pec how to',
+  'overhead-lat-and-tricep':'overhead triceps and lat stretch how to',
+  'cross-body-shoulder':'cross body shoulder stretch how to',
+  'dead-hang':'dead hang how to shoulder decompression',
+  'childs-pose':'childs pose stretch how to',
+  'downward-dog':'downward dog how to beginner',
+  'cobra':'cobra pose stretch how to',
+  'thread-the-needle':'thread the needle stretch thoracic how to',
+  'forearm-and-wrist':'wrist and forearm stretch how to',
+  'two-feet-in':'agility ladder two feet in each box drill',
+  'lateral-shuffle':'agility ladder lateral shuffle drill',
+  'in-in-out-out':'agility ladder in in out out drill',
+  'icky-shuffle':'icky shuffle agility ladder drill slow',
+  't-drill':'T drill agility cone drill technique',
+  '5-10-5-shuttle':'5-10-5 pro agility shuttle technique',
+  'box-drill':'box drill agility cones how to'
+};
+
+/* The curated subset: worth watching before you first attempt them,
+   because a diagram shows the position but not the timing. */
 const LEARN = [
-  {ex:'clean', name:'Kettlebell clean', q:'hardstyle kettlebell clean technique',
+  {ex:'clean', name:'Kettlebell clean',
    why:'Watch the wrist rotation as the bell comes up. It decides whether the bell lands soft on your forearm or bangs it \u2014 the usual reason people give up on cleans.'},
-  {ex:'swing', name:'Kettlebell swing', q:'hardstyle kettlebell swing hinge technique',
+  {ex:'swing', name:'Kettlebell swing',
    why:'Watch the hips, not the arms. If the bell is being lifted rather than floating up from hip snap, the pattern is wrong and no amount of reps fixes it.'},
-  {ex:'high-pull', name:'High pull', q:'kettlebell high pull technique',
+  {ex:'high-pull', name:'High pull',
    why:'Watch where the elbow goes. It leads high and wide and the bell follows \u2014 pulling with the arm turns it into a bad upright row.'},
-  {ex:'push-press', name:'Push press', q:'kettlebell push press technique',
+  {ex:'push-press', name:'Push press',
    why:'Watch the dip. Short and straight down, a shallow knee bend \u2014 not a squat, and not a forward lean.'},
-  {ex:'racked-carry', name:'Racked carry', q:'kettlebell rack carry technique',
+  {ex:'racked-carry', name:'Racked carry',
    why:'Watch the ribs and the trailing shoulder. Any side-lean means the bell is too heavy for the carry.'},
-  {ex:'rod-rdl', name:'Romanian deadlift', q:'romanian deadlift RDL technique',
+  {ex:'rod-front-squat', name:'Front squat',
+   why:'Watch the elbows. They stay high through the whole rep; the moment they drop, the back rounds and the bar rolls forward.'},
+  {ex:'rod-rdl', name:'Romanian deadlift',
    why:'Watch the back angle at the bottom. The moment it rounds, the set is finished \u2014 that point is your range, not the floor.'},
-  {ex:'parachute-sprint', name:'Parachute sprint', q:'resistance parachute sprint training drills',
+  {ex:'parachute-sprint', name:'Parachute sprint',
    why:'Watch the posture. Upright drive with a tall chest, not a forward lean into the drag. The lean is what wrecks your stride.'},
-  {ex:'broad-jump', name:'Broad jump', q:'broad jump landing technique plyometrics',
+  {ex:'broad-jump', name:'Broad jump',
    why:'Watch the landing more than the jump. Hips back, knees tracking over the toes, and silent.'},
-  {ex:'lateral-bound', name:'Lateral bound', q:'lateral bound plyometric drill technique',
+  {ex:'lateral-bound', name:'Lateral bound',
    why:'Watch the pause on landing. Sticking it for a beat is the whole point \u2014 rushing back turns it into hopping.'},
-  {ex:'icky-shuffle', name:'Icky shuffle', q:'icky shuffle agility ladder drill slow',
+  {ex:'icky-shuffle', name:'Icky shuffle',
    why:'Watch the rhythm, not the feet. Count it aloud as out-in-in until it clicks, then speed up.'},
-  {ex:'t-drill', name:'T-drill', q:'T drill agility cone drill technique',
+  {ex:'t-drill', name:'T-drill',
    why:'Watch the shuffle sections. Hips stay low, feet never cross, and you face forward the whole way round.'}
 ];
 const LEARN_BY_EX = {};
 LEARN.forEach(l => LEARN_BY_EX[l.ex] = l);
-function ytUrl(l){ return YT + encodeURIComponent(l.q); }
+function ytUrl(ex){ return VIDEO[ex] ? YT + encodeURIComponent(VIDEO[ex]) : null; }
 
 function renderLearn(){
   const root = document.getElementById('view-manual');
@@ -1879,24 +1957,24 @@ function renderLearn(){
   btn.onclick = () => g.classList.toggle('open');
   const body = document.createElement('div');
   body.className = 'sectbody';
-  let h = '<p class="lede">Eleven movements where a diagram shows the shape but not the timing. Worth watching once before you first attempt them. These open YouTube, so they need a connection.</p>';
+  let h = '<p class="lede">Every diagram in this manual has its own Watch link. These twelve are the ones worth watching <em>before</em> you first attempt them \u2014 the diagram shows the shape but not the timing. Links open YouTube, so they need a connection.</p>';
   LEARN.forEach(l => {
     h += '<div class="learn"><b>' + l.name + '</b><p>' + l.why + '</p>';
-    h += '<a class="yt" href="' + ytUrl(l) + '" target="_blank" rel="noopener">' + ytIcon() + 'Watch</a></div>';
+    h += '<a class="yt" href="' + ytUrl(l.ex) + '" target="_blank" rel="noopener">' + ytIcon() + 'Watch</a></div>';
   });
   body.innerHTML = h;
   g.appendChild(btn); g.appendChild(body);
   root.insertBefore(g, root.firstChild);
 
-  // and a small link on the matching diagram inside the manual
-  LEARN.forEach(l => {
-    const fig = root.querySelector('figure[data-ex="' + l.ex + '"] figcaption');
-    if(fig && !fig.querySelector('.yt')){
-      const a = document.createElement('a');
-      a.className = 'yt mini'; a.href = ytUrl(l); a.target = '_blank'; a.rel = 'noopener';
-      a.innerHTML = ytIcon() + 'Watch';
-      fig.appendChild(a);
-    }
+  // a link on every diagram that has a query
+  root.querySelectorAll('figure[data-ex]').forEach(fig => {
+    const url = ytUrl(fig.dataset.ex);
+    const cap = fig.querySelector('figcaption');
+    if(!url || !cap || cap.querySelector('.yt')) return;
+    const a = document.createElement('a');
+    a.className = 'yt mini'; a.href = url; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = ytIcon() + 'Watch';
+    cap.appendChild(a);
   });
 }
 function ytIcon(){
@@ -1972,7 +2050,7 @@ function renderBlock(b, sess, dayKey, date, wk){
   h += '<div class="bhead"><button class="tick' + (logged.done ? ' on' : '') + '" data-tick="' + b.id + '" aria-label="Mark done"></button>';
   h += '<div class="btitle"><b>' + b.name + '</b><span>' + b.target + '</span></div>';
   if(b.ex) h += '<button class="dia" data-dia="' + b.ex + '" aria-label="Show diagram">?</button>';
-  if(b.ex && LEARN_BY_EX[b.ex]) h += '<a class="yt icon" href="' + ytUrl(LEARN_BY_EX[b.ex]) + '" target="_blank" rel="noopener" aria-label="Watch tutorial">' + ytIcon() + '</a>';
+  if(b.ex && ytUrl(b.ex)) h += '<a class="yt icon" href="' + ytUrl(b.ex) + '" target="_blank" rel="noopener" aria-label="Watch tutorial">' + ytIcon() + '</a>';
   h += '</div>';
   h += '<div class="diaslot"></div>';
 
