@@ -489,6 +489,21 @@ body.offline .yt.icon::after{ content:none; }
 .learn:first-of-type{ border-top:0; padding-top:4px; }
 .learn b{ display:block; font-size:16px; font-weight:640; letter-spacing:-.015em; margin-bottom:4px; }
 .learn p{ margin:0 0 11px; font-size:14.5px; color:var(--muted); }
+
+/* ---------- fixes ---------- */
+/* Link icons must never be resized by the diagram ratio pass. */
+.yt{ white-space:nowrap; flex:none; }
+.yt svg{ width:15px !important; height:15px !important; aspect-ratio:auto !important; flex:none; }
+.yt.icon svg{ width:17px !important; height:17px !important; }
+.yt.mini svg{ width:13px !important; height:13px !important; }
+.learn .yt{ margin-top:2px; }
+
+/* Short pages (an empty History) let the fixed tab bar sit above the
+   screen edge. Keep every view at least a screenful, and paint solid
+   colour below the bar so no gap can show through. */
+main.wrap{ min-height:calc(100vh - 200px); min-height:calc(100dvh - 200px); }
+.tabs{ box-shadow:0 40px 0 var(--card); }
+.empty{ padding:56px 20px; }
 </style>
 </head>
 <body>
@@ -2231,7 +2246,7 @@ function initManual(){
   });
 }
 function pinRatios(){
-  document.querySelectorAll('#view-manual svg[viewBox]').forEach(s => {
+  document.querySelectorAll('#view-manual figure > svg[viewBox]').forEach(s => {
     const v = s.getAttribute('viewBox').split(/[\s,]+/);
     if(v.length === 4 && +v[2] && +v[3]){
       s.style.aspectRatio = v[2] + ' / ' + v[3];

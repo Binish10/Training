@@ -1,5 +1,5 @@
 /* Bump C on EVERY change to index.html, or installed copies keep serving the old shell. */
-const C = 'training-v5';
+const C = 'training-v6';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
