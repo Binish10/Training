@@ -536,6 +536,70 @@ main.wrap{ min-height:calc(100vh - 200px); min-height:calc(100dvh - 200px); }
 
 /* ---------- session duration ---------- */
 .dur{ text-align:center; color:var(--muted); font-size:13.5px; margin:-58px 0 70px; }
+
+/* ---------- day summary ---------- */
+.summary{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:6px 16px; margin-bottom:14px; box-shadow:var(--sh-1);
+}
+.sumrow{ display:flex; gap:14px; padding:12px 0; align-items:baseline; }
+.sumrow + .sumrow{ border-top:1px solid var(--line); }
+.sumtime{
+  flex:none; width:48px; font-size:12px; font-weight:700; color:var(--acc-ink);
+  text-transform:uppercase; letter-spacing:.04em;
+}
+.sumbody{ flex:1; line-height:1.4; min-width:0; }
+.sumbody b{ display:block; font-size:15.5px; font-weight:620; letter-spacing:-.015em; }
+.sumbody span{ display:block; color:var(--muted); font-size:13px; }
+
+/* ---------- date button + calendar ---------- */
+button.dayinfo{
+  appearance:none; background:none; border:0; cursor:pointer; font:inherit;
+  color:var(--ink); padding:6px 4px; border-radius:var(--r-sm); transition:background .15s;
+}
+button.dayinfo:active{ background:var(--card-2); }
+
+.calhead{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.calhead b{ font-size:16px; font-weight:650; }
+.calnav{
+  appearance:none; border:1px solid var(--line); background:var(--card-2); color:var(--ink);
+  width:38px; height:38px; border-radius:var(--r-sm); font-size:19px; line-height:1; cursor:pointer;
+}
+.calgrid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+.caldow{ text-align:center; font-size:11px; font-weight:700; color:var(--muted); padding-bottom:4px; }
+.calday{
+  appearance:none; aspect-ratio:1; border:1px solid transparent; border-radius:var(--r-sm);
+  background:var(--card-2); color:var(--ink-2); font:inherit; font-size:14px; cursor:pointer;
+  position:relative; padding:0;
+}
+.calday.is-today{ border-color:var(--muted); font-weight:700; }
+.calday.is-viewing{ border-color:var(--acc); border-width:2px; color:var(--acc-ink); font-weight:700; }
+.calday.is-done{ background:var(--acc); color:#fff; }
+.calday.is-part{ background:var(--acc-soft); color:var(--acc-ink); }
+.callegend{ display:flex; gap:16px; margin-top:14px; font-size:12.5px; color:var(--muted); }
+.callegend span{ display:flex; align-items:center; gap:6px; }
+.callegend i{ width:13px; height:13px; border-radius:3px; display:block; }
+.callegend .k-done{ background:var(--acc); }
+.callegend .k-part{ background:var(--acc-soft); border:1px solid var(--acc); }
+
+/* ---------- multi-diagram strip ---------- */
+.diaslot:not(:empty){ max-width:none; }
+.diastrip{ max-width:250px; }
+.diastrip.multi{
+  display:flex; gap:10px; overflow-x:auto; max-width:none;
+  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  padding-bottom:4px; margin:0 -16px; padding-left:16px; padding-right:16px;
+}
+.diastrip.multi .d{ flex:0 0 216px; scroll-snap-align:start; }
+.diahint{ font-size:12.5px; color:var(--muted); margin:8px 0 0; }
+
+/* history rows carry their own detail, so a steps-only day (written daily
+   by the Health shortcut) is informative rather than an empty line */
+.histrow .hn{ display:flex; flex-direction:column; gap:2px; }
+.histrow .hn em{ font-style:normal; font-size:12.5px; color:var(--muted); font-weight:400; }
+.histrow.is-light{ background:transparent; box-shadow:none; }
+.histrow.is-light .hn{ color:var(--muted); font-weight:400; }
+.hd{ width:52px; }
 </style>
 </head>
 <body>
@@ -1737,7 +1801,7 @@ const PLAN = {
   monday: {
     name: 'Upper body and hinge', warmup: 'B', cooldown: 'B', walk: '45 min',
     blocks: [
-      {id:'pullup',   name:'Pull-ups',           type:'sets', sets:4, target:'3\u20135 negatives, or 5\u20138 strict \u00b7 hardest first', ex:'pull-up'},
+      {id:'pullup',   name:'Pull-ups',           type:'sets', sets:4, target:'3\u20135 negatives, or 5\u20138 strict \u00b7 hardest first', ex:['pull-up','negative-pull-up']},
       {id:'rod-ohp',  name:'Rod overhead press', type:'sets', sets:3, target:'8 reps \u00b7 before push-ups', weight:true, ex:'rod-overhead-press'},
       {id:'rod-row',  name:'Rod bent-over row',  type:'sets', sets:3, target:'10 reps', weight:true, ex:'rod-bent-over-row'},
       {id:'pushup',   name:'Push-up board',      type:'sets', sets:3, target:'two grip positions', ex:'push-up-on-the-board'},
@@ -1756,8 +1820,8 @@ const PLAN = {
   wednesday: {
     name: 'Kettlebell and legs', warmup: 'C', cooldown: 'C', walk: '45 min',
     blocks: [
-      {id:'ladder',    name:'Ladder footwork',  type:'contacts', target:'4 min \u00b7 part of the warm-up', ex:'two-feet-in'},
-      {id:'kb1',       name:'10 kg complex',    type:'complex',  target:'clean \u2192 press \u2192 goblet squat \u2192 row, 3 each', rounds:4, bell:10, ex:'clean'},
+      {id:'ladder',    name:'Ladder footwork',  type:'contacts', target:'4 min \u00b7 part of the warm-up', ex:['two-feet-in','lateral-shuffle','in-in-out-out','icky-shuffle']},
+      {id:'kb1',       name:'10 kg complex',    type:'complex',  target:'clean \u2192 press \u2192 goblet squat \u2192 row, 3 each', rounds:4, bell:10, ex:['clean','overhead-press','goblet-squat','single-arm-row']},
       {id:'front-sq',  name:'Rod front squat',  type:'sets', sets:3, target:'8 reps \u00b7 elbows high', weight:true, ex:'rod-front-squat'},
       {id:'split-sq',  name:'Split squat',      type:'sets', sets:3, target:'8 per side \u00b7 weaker side sets the load', weight:true, ex:'split-squat'},
       {id:'rod-floor', name:'Rod floor press',  type:'sets', sets:3, target:'8 reps',  weight:true, ex:'rod-floor-press'}
@@ -1766,16 +1830,16 @@ const PLAN = {
   thursday: {
     name: 'Active recovery', warmup: '\u2014', cooldown: 'C', walk: '60 min',
     blocks: [
-      {id:'mobility', name:'Mobility', type:'check', target:'10 min \u00b7 cat-cow, bird-dog, WGS, hip circles', ex:'worlds-greatest-stretch'}
+      {id:'mobility', name:'Mobility', type:'check', target:'10 min \u00b7 cat-cow, bird-dog, world\u2019s greatest stretch, thread the needle', ex:['cat-cow','bird-dog','worlds-greatest-stretch','thread-the-needle']}
     ]
   },
   friday: {
     name: 'Speed day', warmup: 'A + strides', cooldown: 'A', walk: '30 min, flat and easy',
     blocks: [
-      {id:'ladder',  name:'Ladder footwork',   type:'contacts', target:'4 min', ex:'icky-shuffle'},
+      {id:'ladder',  name:'Ladder footwork',   type:'contacts', target:'4 min \u00b7 all four patterns', ex:['two-feet-in','lateral-shuffle','in-in-out-out','icky-shuffle']},
       {id:'sprints', name:'Parachute sprints', type:'contacts', target:'6 \u00d7 30 m \u00b7 90 sec rest \u00b7 stop when reps slow', ex:'parachute-sprint'},
-      {id:'plyo',    name:'Plyometrics \u2014 odd weeks', type:'contacts', target:'60\u201380 foot contacts \u00b7 skip on even weeks', ex:'broad-jump'},
-      {id:'cones',   name:'Cone agility \u2014 even weeks', type:'contacts', target:'T-drill \u00d74 \u00b7 5-10-5 \u00d74 \u00b7 box \u00d73 \u00b7 skip on odd weeks', ex:'t-drill'}
+      {id:'plyo',    name:'Plyometrics \u2014 odd weeks', type:'contacts', target:'60\u201380 foot contacts \u00b7 skip on even weeks', ex:['broad-jump','cone-or-hurdle-hop','lateral-bound']},
+      {id:'cones',   name:'Cone agility \u2014 even weeks', type:'contacts', target:'T-drill \u00d74 \u00b7 5-10-5 \u00d74 \u00b7 box \u00d73 \u00b7 skip on odd weeks', ex:['t-drill','5-10-5-shuttle','box-drill']}
     ]
   },
   saturday: {
@@ -1787,7 +1851,7 @@ const PLAN = {
   sunday: {
     name: 'Rest', warmup: '\u2014', cooldown: '\u2014', walk: '60 min',
     blocks: [
-      {id:'stretch', name:'Optional stretching', type:'check', target:'10 min', ex:'childs-pose'}
+      {id:'stretch', name:'Optional stretching', type:'check', target:'10 min', ex:['childs-pose','downward-dog','pigeon-or-figure-4','thread-the-needle']}
     ]
   }
 };
@@ -2001,7 +2065,11 @@ const LEARN = [
 ];
 const LEARN_BY_EX = {};
 LEARN.forEach(l => LEARN_BY_EX[l.ex] = l);
-function ytUrl(ex){ return VIDEO[ex] ? YT + encodeURIComponent(VIDEO[ex]) : null; }
+function exList(ex){ return !ex ? [] : (Array.isArray(ex) ? ex : [ex]); }
+function ytUrl(ex){
+  const k = exList(ex)[0];
+  return k && VIDEO[k] ? YT + encodeURIComponent(VIDEO[k]) : null;
+}
 
 function renderLearn(){
   const root = document.getElementById('view-manual');
@@ -2066,9 +2134,11 @@ function renderToday(){
   h += exportNudge();
   h += '<div class="daybar">';
   h += '<button class="nav" data-shift="-1" aria-label="Previous day">‹</button>';
-  h += '<div class="dayinfo"><b>' + pretty + '</b><span>Week ' + wk + ' · step target ' + stepTarget.toLocaleString() + '</span></div>';
+  h += '<button class="dayinfo" id="opencal"><b>' + pretty + '</b><span>Week ' + wk + ' · step target ' + stepTarget.toLocaleString() + '</span></button>';
   h += '<button class="nav" data-shift="1" aria-label="Next day">›</button>';
   h += '</div>';
+
+  h += daySummary(plan, dayKey, wk, stepTarget);
 
   h += '<div class="sesshead">';
   h += '<h2 class="sessname">' + plan.name + '</h2>';
@@ -2109,6 +2179,27 @@ function renderToday(){
 
 /* The only real data-loss path left: iOS can clear storage without warning
    and the export is manual. Persistent, dismissible for a day at a time. */
+/* A plain read of the day before any of the logging chrome: what happens
+   at 6 am, what happens at 6 pm. */
+function daySummary(plan, dayKey, wk, stepTarget){
+  const evening = [];
+  if(dayKey === 'friday' && wk <= 2){
+    evening.push('No session until week 3');
+  } else {
+    if(plan.warmup !== '\u2014') evening.push('Warm-up ' + plan.warmup);
+    const n = blocksFor(plan, dayKey, wk).length;
+    evening.push(plan.name + (n ? ' \u00b7 ' + n + (n === 1 ? ' block' : ' blocks') : ''));
+    if(plan.cooldown !== '\u2014') evening.push('Cool-down ' + plan.cooldown);
+  }
+  let h = '<div class="summary">';
+  h += '<div class="sumrow"><span class="sumtime">6 am</span><div class="sumbody"><b>Walk ' + plan.walk + '</b>';
+  h += '<span>Target ' + stepTarget.toLocaleString() + ' steps today</span></div></div>';
+  h += '<div class="sumrow"><span class="sumtime">6 pm</span><div class="sumbody"><b>' + evening[0] + '</b>';
+  if(evening.length > 1) h += '<span>' + evening.slice(1).join(' \u2192 ') + '</span>';
+  h += '</div></div></div>';
+  return h;
+}
+
 function exportNudge(){
   const st = settings();
   const n = allSessions().length;
@@ -2130,7 +2221,8 @@ function renderBlock(b, sess, dayKey, date, wk){
   let h = '<section class="block" data-block="' + b.id + '">';
   h += '<div class="bhead"><button class="tick' + (logged.done ? ' on' : '') + '" data-tick="' + b.id + '" aria-label="Mark done"></button>';
   h += '<div class="btitle"><b>' + b.name + '</b><span>' + b.target + '</span></div>';
-  if(b.ex) h += '<button class="dia" data-dia="' + b.ex + '" aria-label="Show diagram">?</button>';
+  const exs = exList(b.ex);
+  if(exs.length) h += '<button class="dia" data-dia="' + exs.join(',') + '" aria-label="Show diagrams">' + (exs.length > 1 ? exs.length : '?') + '</button>';
   if(b.ex && ytUrl(b.ex)) h += '<a class="yt icon" href="' + ytUrl(b.ex) + '" target="_blank" rel="noopener" aria-label="Watch tutorial">' + ytIcon() + '</a>';
   h += '</div>';
   h += '<div class="diaslot"></div>';
@@ -2191,6 +2283,9 @@ function renderBlock(b, sess, dayKey, date, wk){
 function wireToday(date, dayKey){
   const root = document.getElementById('view-today');
 
+  const oc = document.getElementById('opencal');
+  if(oc) oc.onclick = openCalendar;
+
   root.querySelectorAll('[data-shift]').forEach(el => el.onclick = () => {
     const d = parseISO(viewDate); d.setDate(d.getDate() + (+el.dataset.shift));
     viewDate = iso(d); renderToday();
@@ -2199,8 +2294,20 @@ function wireToday(date, dayKey){
   root.querySelectorAll('[data-dia]').forEach(el => el.onclick = () => {
     const slot = el.closest('.block').querySelector('.diaslot');
     if(slot.firstChild){ slot.innerHTML = ''; el.classList.remove('on'); return; }
-    const fig = document.querySelector('#view-manual figure[data-ex="' + el.dataset.dia + '"]');
-    if(fig){ const c = fig.cloneNode(true); slot.appendChild(c); el.classList.add('on'); }
+    const keys = el.dataset.dia.split(',');
+    const strip = document.createElement('div');
+    strip.className = keys.length > 1 ? 'diastrip multi' : 'diastrip';
+    keys.forEach(k => {
+      const fig = document.querySelector('#view-manual figure[data-ex="' + k + '"]');
+      if(fig) strip.appendChild(fig.cloneNode(true));
+    });
+    if(strip.children.length){ slot.appendChild(strip); el.classList.add('on'); }
+    if(keys.length > 1){
+      const hint = document.createElement('p');
+      hint.className = 'diahint';
+      hint.textContent = 'Swipe for the other ' + (keys.length - 1);
+      slot.appendChild(hint);
+    }
   });
 
   root.querySelectorAll('[data-goto]').forEach(el => el.onclick = () => {
@@ -2255,17 +2362,26 @@ function bindInputsOnce(){
   const root = document.getElementById('view-today');
   const handler = e => {
     const t = e.target;
-    if(t.id === 'steps' || t.id === 'notes' || t.closest('.block')) commit(viewDate);
+    const inBlock = !!t.closest('.block');
+    if(!(t.id === 'steps' || t.id === 'notes' || inBlock)) return;
+    // The clock starts on training input only. Logging steps at 10pm is not
+    // the start of a session.
+    if(inBlock) startClock();
+    commit(viewDate);
   };
   root.addEventListener('input', handler);
   root.addEventListener('change', handler);
+}
+
+function startClock(){
+  const s = ensureSession(viewDate);
+  if(!s.startedAt && !s.done){ s.startedAt = Date.now(); saveSession(s); }
 }
 
 function commit(date){
   const s = ensureSession(date);
   s.day = dayKeyFor(date);
   let touched = false;
-  if(!s.startedAt && !s.done) s.startedAt = Date.now();
   document.querySelectorAll('#view-today .block').forEach(sec => {
     const id = sec.dataset.block;
     const cur = s.blocks[id] || {};
@@ -2296,6 +2412,50 @@ function hasData(b){
   return ['weight','rounds','minutes','reps','contacts'].some(k => b[k] != null);
 }
 
+/* ---------- Calendar ---------- */
+let calMonth = null;   // first of the month currently shown
+
+function openCalendar(){
+  const d = parseISO(viewDate);
+  calMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+  drawCalendar();
+}
+
+function drawCalendar(){
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const title = calMonth.toLocaleDateString(undefined, {month:'long', year:'numeric'});
+  const first = new Date(y, m, 1).getDay();          // 0 = Sunday
+  const days = new Date(y, m + 1, 0).getDate();
+
+  let h = '<div class="calhead"><button class="calnav" data-cal="-1" aria-label="Previous month">\u2039</button>';
+  h += '<b>' + title + '</b>';
+  h += '<button class="calnav" data-cal="1" aria-label="Next month">\u203a</button></div>';
+  h += '<div class="calgrid">';
+  ['S','M','T','W','T','F','S'].forEach(w => h += '<span class="caldow">' + w + '</span>');
+  for(let i = 0; i < first; i++) h += '<span></span>';
+  for(let n = 1; n <= days; n++){
+    const ds = y + '-' + String(m+1).padStart(2,'0') + '-' + String(n).padStart(2,'0');
+    const s = getSession(ds);
+    const cls = ['calday'];
+    if(ds === today()) cls.push('is-today');
+    if(ds === viewDate) cls.push('is-viewing');
+    if(s && s.done) cls.push('is-done');
+    else if(s && (Object.keys(s.blocks||{}).length || s.steps != null)) cls.push('is-part');
+    h += '<button class="' + cls.join(' ') + '" data-jump="' + ds + '">' + n + '</button>';
+  }
+  h += '</div>';
+  h += '<div class="callegend"><span><i class="k-done"></i>completed</span><span><i class="k-part"></i>partly logged</span></div>';
+
+  openSheet('Jump to a day', h);
+  document.querySelectorAll('[data-cal]').forEach(b => b.onclick = () => {
+    calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + (+b.dataset.cal), 1);
+    drawCalendar();
+  });
+  document.querySelectorAll('[data-jump]').forEach(b => b.onclick = () => {
+    viewDate = b.dataset.jump; closeSheet(); renderToday();
+  });
+}
+
 /* ---------- Change day ---------- */
 document.addEventListener('click', e => {
   if(e.target.id !== 'swapday') return;
@@ -2320,6 +2480,15 @@ const METRICS = [
 function pick(s,b,f){ return s.blocks && s.blocks[b] ? s.blocks[b][f] : null; }
 function sum(a){ if(!Array.isArray(a)) return null; const v = a.filter(x => typeof x === 'number'); return v.length ? v.reduce((x,y)=>x+y,0) : null; }
 
+/* Thursday and Sunday are recovery, and Friday does not exist before
+   week 3 — so the weekly target is not a constant. */
+function sessionsTargetFor(wk){
+  return DAY_KEYS.filter(k => {
+    if(k === 'thursday' || k === 'sunday') return false;
+    return blocksFor(PLAN[k], k, wk).length > 0 && !(k === 'friday' && wk <= 2);
+  }).length;
+}
+
 function renderHistory(){
   const list = allSessions();
   let h = '';
@@ -2331,7 +2500,8 @@ function renderHistory(){
   const weeks = {};
   list.forEach(s => { const w = weekNumber(s.date); weeks[w] = (weeks[w]||0) + (s.done?1:0); });
   const thisWk = weekNumber(today());
-  h += '<div class="panel"><b class="lbl">This week</b><p class="big">' + (weeks[thisWk]||0) + ' <span>of 5 sessions</span></p></div>';
+  const target = sessionsTargetFor(thisWk);
+  h += '<div class="panel"><b class="lbl">This week</b><p class="big">' + (weeks[thisWk]||0) + ' <span>of ' + target + ' sessions</span></p></div>';
 
   METRICS.forEach(m => {
     const pts = list.slice().reverse().map(s => ({d:s.date, v:m.get(s)})).filter(p => typeof p.v === 'number');
@@ -2346,9 +2516,18 @@ function renderHistory(){
   h += '<h3>Sessions</h3>';
   list.forEach(s => {
     const p = PLAN[s.day] || {name:s.day};
-    h += '<button class="histrow" data-open="' + s.date + '">';
-    h += '<span class="hd">' + s.date + '</span><span class="hn">' + p.name + '</span>';
-    h += '<span class="hs">' + (s.done ? '✓' : '·') + '</span></button>';
+    const trained = Object.keys(s.blocks || {}).some(k => hasData(s.blocks[k])) || s.done;
+    const meta = [];
+    if(s.steps != null) meta.push(s.steps.toLocaleString() + ' steps');
+    if(s.durationMin) meta.push(s.durationMin + ' min');
+    if(s.readiness) meta.push({fresh:'fresh', normal:'normal', beat:'beaten up'}[s.readiness]);
+
+    h += '<button class="histrow' + (trained ? '' : ' is-light') + '" data-open="' + s.date + '">';
+    h += '<span class="hd">' + s.date.slice(5) + '</span>';
+    h += '<span class="hn">' + (trained ? p.name : 'No session logged');
+    if(meta.length) h += '<em>' + meta.join(' · ') + '</em>';
+    h += '</span>';
+    h += '<span class="hs">' + (s.done ? '✓' : '') + '</span></button>';
     h += '<div class="histdetail" id="hd-' + s.date + '"></div>';
   });
 
