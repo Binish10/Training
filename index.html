@@ -249,18 +249,25 @@ textarea{ resize:vertical; }
 
 /* ---------- timer ---------- */
 #timer{
-  position:fixed; z-index:45; right:14px; bottom:calc(80px + env(safe-area-inset-bottom));
-  background:var(--slate); color:var(--line); border-radius:4px; padding:8px;
-  display:flex; align-items:center; gap:6px;
+  position:fixed; z-index:45; right:12px; bottom:calc(78px + env(safe-area-inset-bottom));
+  background:var(--slate); color:var(--line); border-radius:4px; padding:6px;
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap; max-width:calc(100vw - 24px);
 }
 #timer button{
   appearance:none; border:0; background:#2e3947; color:var(--line);
-  font:inherit; font-size:13px; padding:8px 10px; border-radius:3px; cursor:pointer; min-width:38px;
+  font:inherit; font-size:13px; padding:9px 12px; border-radius:3px; cursor:pointer;
 }
-#tval{ display:none; font-size:19px; font-weight:700; color:var(--chalk); min-width:52px; text-align:center; font-variant-numeric:tabular-nums; }
+#tpanel{ display:none; grid-template-columns:repeat(4,1fr); gap:6px; }
+#timer.open #tpanel{ display:grid; }
+#timer.open #topen{ background:var(--chalk); color:var(--slate); font-weight:700; }
+#tpanel button{ min-width:52px; text-align:center; }
+#tval{
+  display:none; font-size:20px; font-weight:700; color:var(--chalk);
+  min-width:58px; text-align:center; font-variant-numeric:tabular-nums; padding:0 4px;
+}
 #tstop{ display:none; }
 #timer.running #tval, #timer.running #tstop{ display:block; }
-#timer.running [data-rest]{ display:none; }
+#timer.running #topen, #timer.running #tpanel{ display:none; }
 
 /* ---------- sheet + toast ---------- */
 #sheet{ position:fixed; inset:0; z-index:60; background:rgba(19,24,32,.5); display:flex; align-items:flex-end; }
@@ -1356,10 +1363,18 @@ textarea{ resize:vertical; }
   <div id="view-data" hidden></div>
 </main>
 
-<div id="timer">
-  <button data-rest="60">60</button>
-  <button data-rest="90">90</button>
-  <button data-rest="120">120</button>
+<div id="timer" hidden>
+  <button id="topen">Rest timer</button>
+  <div id="tpanel">
+    <button data-rest="10">10s</button>
+    <button data-rest="20">20s</button>
+    <button data-rest="30">30s</button>
+    <button data-rest="45">45s</button>
+    <button data-rest="60">60s</button>
+    <button data-rest="90">90s</button>
+    <button data-rest="120">2m</button>
+    <button data-rest="180">3m</button>
+  </div>
   <span id="tval">0:00</span>
   <button id="tstop">Stop</button>
 </div>
@@ -1855,22 +1870,35 @@ function renderData(){
 
 /* ---------- Rest timer ---------- */
 let timerEnd = 0, timerTick = null;
+function timerEl(){ return document.getElementById('timer'); }
+function isRunning(){ return timerTick !== null; }
+
 function startTimer(sec){
   timerEnd = Date.now() + sec*1000;
-  document.getElementById('timer').classList.add('running');
+  const t = timerEl();
+  t.classList.add('running'); t.classList.remove('open');
   unlockAudio();
   if(timerTick) clearInterval(timerTick);
   timerTick = setInterval(paintTimer, 250);
   paintTimer();
 }
+function stopTimer(){
+  if(timerTick) clearInterval(timerTick);
+  timerTick = null;
+  timerEl().classList.remove('running');
+  syncTimerVisibility();
+}
 function paintTimer(){
   const left = Math.max(0, Math.round((timerEnd - Date.now())/1000));
   document.getElementById('tval').textContent = String(Math.floor(left/60)) + ':' + String(left%60).padStart(2,'0');
-  if(left <= 0){
-    clearInterval(timerTick); timerTick = null;
-    document.getElementById('timer').classList.remove('running');
-    beep();
-  }
+  if(left <= 0){ stopTimer(); beep(); }
+}
+/* Only clutter the Today screen with it — unless it's counting down,
+   in which case keep it visible wherever you are. */
+function syncTimerVisibility(){
+  const onToday = !document.getElementById('view-today').hidden;
+  timerEl().hidden = !(onToday || isRunning());
+  if(timerEl().hidden) timerEl().classList.remove('open');
 }
 document.addEventListener('visibilitychange', () => { if(!document.hidden && timerTick) paintTimer(); });
 
@@ -1900,6 +1928,7 @@ function show(id){
   });
   if(id === 'history') renderHistory();
   if(id === 'data') renderData();
+  syncTimerVisibility();
   window.scrollTo(0,0);
 }
 function initManual(){
@@ -1911,19 +1940,30 @@ function initManual(){
       group = document.createElement('div');
       group.className = 'sect';
       root.insertBefore(group, el);
+      const g = group;                       // capture per section
       const btn = document.createElement('button');
       btn.className = 'secthead';
       btn.innerHTML = el.innerHTML + '<i></i>';
-      btn.onclick = () => group.classList.toggle('open');
+      btn.onclick = () => g.classList.toggle('open');
       const body = document.createElement('div');
       body.className = 'sectbody';
-      group.appendChild(btn); group.appendChild(body);
-      group._body = body;
+      g.appendChild(btn); g.appendChild(body);
+      g._body = body;
       el.remove();
       return;
     }
     if(group && el.tagName === 'HR' && el.className === 'rule'){ el.remove(); return; }
     if(group) group._body.appendChild(el);
+  });
+}
+function pinRatios(){
+  document.querySelectorAll('#view-manual svg[viewBox]').forEach(s => {
+    const v = s.getAttribute('viewBox').split(/[\s,]+/);
+    if(v.length === 4 && +v[2] && +v[3]){
+      s.style.aspectRatio = v[2] + ' / ' + v[3];
+      s.style.height = 'auto';
+      s.style.width = '100%';
+    }
   });
 }
 function openSection(h3){
@@ -1951,11 +1991,14 @@ function cap(s){ return s[0].toUpperCase() + s.slice(1); }
 /* ---------- Boot ---------- */
 document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => show(b.dataset.tab));
 document.querySelectorAll('[data-rest]').forEach(b => b.onclick = () => startTimer(+b.dataset.rest));
-document.getElementById('tstop').onclick = () => {
-  if(timerTick) clearInterval(timerTick);
-  timerTick = null; document.getElementById('timer').classList.remove('running');
-};
+document.getElementById('tstop').onclick = stopTimer;
+document.getElementById('topen').onclick = () => timerEl().classList.toggle('open');
+document.addEventListener('click', e => {
+  if(!timerEl().classList.contains('open')) return;
+  if(!e.target.closest('#timer')) timerEl().classList.remove('open');
+});
 initManual();
+pinRatios();
 bindInputsOnce();
 settings();
 renderToday();
