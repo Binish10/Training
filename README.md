@@ -25,7 +25,7 @@ No build step, no dependencies. Create `.nojekyll` in GitHub with **Add file →
 
 **Bump `const C` in `sw.js` on every change to `index.html`.**
 
-Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v5`.
+Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v7`.
 
 After a design or icon change, delete the home screen icon and re-add it — the version bump refreshes the page but not always the icon.
 
@@ -47,8 +47,8 @@ Import validates the payload and skips malformed session records. Unparseable fi
 
 ## What's in it
 
-- **Today** — reads the day, loads that session, fields prefill from last time. Four block types: sets, kettlebell complexes, run intervals, foot contacts.
-- **Manual** — 64 diagrams in collapsible sections, plus a "Learn these first" list.
+- **Today** — reads the day, loads that session, fields prefill from last time. Five block types: sets, kettlebell complexes, run intervals, foot contacts, and tick-only for recovery days. Friday is hidden until week 3 and alternates plyometrics and cones.
+- **Manual** — 67 diagrams in collapsible sections, plus a "Learn these first" list.
 - **History** — sparklines for pull-ups, push-ups, kettlebell rounds, sprint reps and steps.
 - **Data** — start date, export, import, storage usage, erase.
 - **Rest timer** — 10s to 3m. Timestamp-based, so locking the phone doesn't break it. Shows on Today, and follows you across tabs while running.
@@ -62,8 +62,11 @@ Import validates the payload and skips malformed session records. Unparseable fi
 
 Week number, run stage and step target all derive from the start date in the Data tab.
 
+## Plan revision 2
+
+The programme was audited and corrected. Squat and single-leg patterns added, the RDL moved off Wednesday, the Friday speed day held back to week 3 and split into alternating plyometric and cone weeks, and a short upper block added after Tuesday's run. Full rationale is in `master-training-plan.md`.
+
 ## Known gaps
 
-- Squat and single-leg patterns are thin in the current plan.
 - Export is manual — no reminder.
 - No automatic back-off signal when performance declines across sessions.

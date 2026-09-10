@@ -2,7 +2,9 @@
 
 **Structure:** 6:00 am walk · 6:00 pm training
 **Weekly:** 5 training sessions, 2 recovery days, 10,000 steps daily
-**Equipment:** 6kg + 10kg kettlebells · push-up board · 3ft loaded rod · agility ladder and cones · resistance parachute · pull-up bar
+**Equipment:** 6kg + 10kg kettlebells · push-up board · 3ft loaded rod · agility ladder and cones · resistance parachute · pull-up bar · resistance bands
+
+*Revision 2 — audited and corrected. Changes summarised at the end.*
 
 ---
 
@@ -24,33 +26,42 @@ Dinner comes after the evening block. Eat something light around 4:30 pm if lunc
 
 | Day | 6:00 am | 6:00 pm |
 |---|---|---|
-| **Monday** | Walk 45 min | **Upper Body Strength** — Warm-up B → session → Cool-down B |
-| **Tuesday** | Walk 30 min | **Easy Run** — Warm-up A → 20 min run-walk → Cool-down A |
-| **Wednesday** | Walk 45 min | **Kettlebell + Hinge** — Warm-up C → session → Cool-down C |
+| **Monday** | Walk 45 min | **Upper Body + Hinge** — Warm-up B → session → Cool-down B |
+| **Tuesday** | Walk 30 min | **Easy Run + 10 min upper block** — Warm-up A → session → Cool-down A |
+| **Wednesday** | Walk 45 min | **Kettlebell + Legs** — Warm-up C → session → Cool-down C |
 | **Thursday** | Walk 60 min | **Active Recovery** — 10 min mobility, Cool-down C held longer |
-| **Friday** | Walk 30 min, flat and easy | **Speed Day** — Warm-up A + strides → session → Cool-down A |
+| **Friday** | Walk 30 min, flat and easy | **Speed Day, from week 3** — Warm-up A + strides → session → Cool-down A |
 | **Saturday** | Walk 30 min | **Easy Run** — Warm-up A → 20–25 min run-walk → Cool-down A |
 | **Sunday** | Walk 60 min | Rest. Optional 10 min stretching |
 
 **Why Friday holds everything explosive.** Sprints, plyometrics and cone agility are the same quality of work — maximum output, short bursts, full recovery. Grouping them gives Saturday and Sunday a genuine 48-hour window for tendon recovery instead of scattering low-grade impact across the week.
 
+**Weeks 1 and 2 have no Friday session.** Running, sprinting and the step ramp all load the same calves, Achilles and plantar fascia. Starting all three in the same week is the most reliable way to pick up shin splints in week three. Walk on Friday instead; the speed day begins in week 3.
+
 **Friday morning is the one walk to keep short and flat.** Sprints need calves that haven't already done 5,000 steps.
+
+**If you don't have resistance bands yet, get a set.** Face-pulls, band-assisted pull-ups, pull-aparts and shoulder dislocates all assume them. A set costs ₹500–800 and is the highest value-per-rupee addition to this kit. Until then: Y-T-W raises replace face-pulls, a towel replaces the band for dislocates, and band-assisted pull-ups become negatives.
 
 ---
 
 ## 3. The Sessions
 
-### Monday — Upper Body Strength
+### Monday — Upper Body + Hinge
 
 | Exercise | Sets × Reps | Notes |
 |---|---|---|
-| Pull-ups | 4 sets | See progression below |
-| Push-up board | 4 sets, two grip positions | Alternate chest (wide) and triceps (narrow) slots |
+| Pull-ups | 4 sets | Hardest thing first, while fresh. Progression below. |
+| Rod overhead press | 3 × 8 | Before push-ups, so shoulders fail before triceps do |
 | Rod bent-over rows | 3 × 10 | Flat back, pull to the navel, squeeze at the top |
-| Rod overhead press | 3 × 8 | Standing, brace the core, no lower-back arch |
-| Band face-pulls | 2 × 15 | Direct counter to desk posture — don't skip |
+| Push-up board | 3 sets, two grip positions | Alternate chest (wide) and triceps (narrow) slots |
+| Rod RDL | 3 × 10 | Moved here from Wednesday |
+| Band face-pulls or Y-T-W raises | 2 × 12–15 | Direct counter to desk posture — don't skip |
 
 Rest 90 seconds between sets. Stop every set 1–2 reps short of failure.
+
+**Order matters here.** Pull-ups while the nervous system is fresh, then the overhead press, then rows, then push-ups. Pressing before push-ups means the shoulders reach their limit before the triceps do — the other way round and the press is capped by already-tired triceps.
+
+**Why the RDL moved.** It's the plan's most eccentric hamstring work, and eccentric soreness peaks 24–48 hours later. On Wednesday that placed it exactly two days before Friday's sprints — the session that most punishes sore hamstrings and the one where hamstrings tear. Monday to Friday gives four days instead of two. It also fixes a grip problem: on Wednesday the RDL followed a complex ending in rows, so your hands gave out before your hamstrings did.
 
 **Pull-up progression by current level:**
 
@@ -85,18 +96,34 @@ Run-walk method. Never two consecutive days.
 
 **Surface:** grass, dirt or asphalt. Avoid concrete slabs.
 
+**Tuesday is the progression run** and follows the table above. **Saturday holds** at whatever Tuesday reached — you are never pushing both runs in the same week.
+
 **If Friday hit hard,** swap Saturday's run for a relaxed 60-minute walk. This is a legitimate call, not a skipped session.
+
+#### Tuesday only — 10 minute upper block after the run
+
+Once a week is not enough for push-ups or pull-ups. The guidance this plan is built on was 3–4 sessions a week for push-ups and 2–3 for pull-ups; Monday alone delivers one of each.
+
+| Exercise | Sets | Notes |
+|---|---|---|
+| Push-up board | 3 sets | Stop 3–4 reps short. Volume, not a hard session. |
+| Pull-ups | 2 sets | Well short of failure. Skip if Monday left your elbows sore. |
 
 ---
 
-### Wednesday — Kettlebell + Hinge Strength
+### Wednesday — Kettlebell + Legs
 
 | Block | Work |
 |---|---|
-| Ladder footwork | 8 min — low impact, quality contacts |
+| Ladder footwork | 4 min — treat it as part of the warm-up |
 | Main complex | 10kg strength complex, 4 rounds per side |
-| Rod RDL | 3 × 10 |
+| Rod front squat | 3 × 8 |
+| Split squat | 3 × 8 per side |
 | Rod floor press | 3 × 8 |
+
+**Why squats had to be added.** The goblet squat inside the complex is loaded by the weakest movement in the chain — the overhead press — so it will always be far too light to train your legs. Wednesday is the lower-body day and you own a loaded rod. Front squats give a real bilateral squat; split squats train one leg at a time, which matters because running and sprinting are single-leg activities and side-to-side asymmetry is a common route into knee and hip trouble.
+
+**The trade-off, stated plainly.** Squatting on Wednesday means some quad soreness on Friday's jumps. That's milder than the hamstring risk it replaces, and manageable if you keep squats two reps shy of failure. If your legs feel heavy on a given Friday, cut plyometric volume that week rather than skipping sprints.
 
 **The weight rule:** choose the bell by the *weakest* movement in the chain — almost always the overhead press. If you can't press it clean at the end of a round, it's too heavy for the whole complex.
 
@@ -117,7 +144,7 @@ Run-walk method. Never two consecutive days.
 
 **Progression:** add a round before adding reps. At 6 clean rounds, extend the complex by one movement rather than piling on volume.
 
-**Why the rod matters here.** 10kg caps out quickly on hinges. RDLs and rows with the loaded rod are what will actually build your posterior chain and back — the bells alone can't load those patterns heavily enough for long.
+**Why the rod matters.** 10kg caps out quickly on squats and hinges. Front squats and split squats here, RDLs and rows on Monday, are what will actually build your legs, posterior chain and back — the bells alone can't load those patterns heavily enough for long.
 
 ---
 
@@ -133,7 +160,7 @@ This day is not optional filler. It's what makes five training days sustainable.
 
 Fixed order. Each element is more neurally demanding than the last is forgiving, so the sequence isn't negotiable.
 
-**1. Ladder — 8 min**
+**1. Ladder — 4 min**
 Two-feet-in · lateral shuffle · in-in-out-out · Icky shuffle. Each pattern down and back twice. Fast feet, light contacts, no stomping.
 
 **2. Parachute sprints — the main event**
@@ -150,7 +177,9 @@ Belt at the waist. Let the chute trail fully before you start. Sprint, walk the 
 
 *Three rules:* Find the quick-release toggle before your first rep. Check the wind — headwind turns moderate drag heavy, tailwind collapses the canopy, so run across it if gusty. Never use the parachute for distance running; sustained drag pulls you into a forward lean that damages your stride mechanics.
 
-**3. Plyometrics — 60–80 total foot contacts**
+**Alternate weeks: plyometrics or cones, never both.** The plan's own rule is never to do explosive work fatigued — and stacking sprints, then 80 jumps, then eleven maximal cone shuttles breaks it twice over. Change of direction is a skill, and skills degrade first, so the cone work was always being done tired. Odd weeks: sprints plus plyometrics. Even weeks: sprints plus cones.
+
+**3a. Plyometrics — odd weeks — 60–80 total foot contacts**
 
 | Drill | Sets × Reps |
 |---|---|
@@ -160,7 +189,7 @@ Belt at the waist. Let the chute trail fully before you start. Sprint, walk the 
 
 Land quietly. Absorb through the hips, not the knees. Full reset between reps, 60–90 sec between sets.
 
-**4. Cone agility — 8 min**
+**3b. Cone agility — even weeks — 8 min**
 T-drill ×4 · 5-10-5 shuttle ×4 · box drill ×3. Full recovery between each, 45–60 sec.
 
 Session total including warm-up and cool-down: about 50 minutes.
@@ -282,6 +311,8 @@ Static holds, 20–30 seconds per side. Inhale 4 seconds, exhale 6 — the long 
 
 **Rod work** — add weight when you can complete all sets with 2 reps in reserve. Small jumps.
 
+**Split squats** — progress the weaker side first, then match the stronger side to it. Never let the gap widen.
+
 **Sprints** — 6 reps building to 8 over four weeks. Don't add distance; 30m is the right length for pure acceleration work.
 
 **Plyometrics** — hold at 60–80 foot contacts for the first month. Increase only after that, and only to 100.
@@ -314,14 +345,35 @@ Static holds, 20–30 seconds per side. Inhale 4 seconds, exhale 6 — the long 
 |---|---|---|
 | Walking | Daily | 10,000 steps |
 | Running | 2× week | 20–25 min run-walk |
-| Kettlebells | 1–2× week | 4 rounds per side |
-| Pull-ups | 1–2× week | 4 sets |
-| Push-ups | 2× week | 4 sets |
+| Kettlebells | 1× week | 4 rounds per side, Wednesday |
+| Pull-ups | 2× week | 4 sets Monday, 2 easy sets Tuesday |
+| Push-ups | 2× week | 3 sets Monday, 3 easy sets Tuesday |
 | Rod work | 2× week | 3 sets per lift |
-| Sprints | 1× week | 6–8 × 30m |
-| Plyometrics | 1× week | 60–80 contacts |
-| Agility | 2× week | Ladder Wed, cones Fri |
+| Squats | 1× week | Front squat + split squat, Wednesday |
+| Sprints | 1× week | 6–8 × 30m, from week 3 |
+| Plyometrics | Alternate weeks | 60–80 contacts |
+| Agility | Alternate weeks | 4 min ladder Wed, cones Fri |
 
 ---
 
 *Until the pull-up bar arrives, substitute: rod bent-over rows 4×10, single-arm kettlebell rows 3×10 per side, and inverted rows under a sturdy table 3× max reps.*
+
+---
+
+## Revision 2 — what changed and why
+
+Audited against the plan's own rules. Nine findings, all applied above.
+
+| # | Finding | Change |
+|---|---|---|
+| 1 | Bands were required in four places but not in the equipment list | Added to kit; Y-T-W raises given as the substitute |
+| 2 | Running, sprinting and the step ramp all started in week 1 | No Friday session until week 3 |
+| 3 | Friday stacked sprints, 80 jumps and 11 cone shuttles — explosive work done fatigued | Plyometrics and cones now alternate weeks; ladder cut to 4 min |
+| 4 | Monday, the freshest day, was upper body only | Rod RDL added |
+| 5 | RDL sat 48 hours before sprints, when eccentric soreness peaks | Moved to Monday |
+| 6 | No squat pattern and no single-leg work anywhere | Front squat and split squat added to Wednesday |
+| 7 | Quick reference promised 2× push-ups and pull-ups; schedule delivered 1× | 10 min upper block added after Tuesday's run |
+| 8 | Saturday's run always landed on beaten legs | Tuesday is the progression run; Saturday holds |
+| 9 | Monday's order put push-ups before the overhead press | Reordered: pull-ups → press → rows → push-ups |
+
+The grip conflict on Wednesday — a complex ending in rows immediately followed by the grip-limited RDL — resolved itself when the RDL moved to Monday.
