@@ -92,6 +92,10 @@
   }
 
 /* ---------- app chrome ---------- */
+/* An author display rule beats the UA rule for [hidden]. Without this the
+   invisible sheet overlay stays in the layer and swallows every tap. */
+[hidden]{ display:none !important; }
+
 html{ -webkit-text-size-adjust:100%; }
 body{ padding-bottom:calc(72px + env(safe-area-inset-bottom)); }
 .wrap{ max-width:820px; margin:0 auto; padding:0 16px 40px; }
@@ -191,7 +195,7 @@ textarea{ resize:vertical; }
 .bar i{ display:block; height:100%; background:var(--chalk); }
 
 .done{
-  appearance:none; width:100%; margin:20px 0 8px; padding:15px; cursor:pointer;
+  appearance:none; width:100%; margin:20px 0 64px; padding:15px; cursor:pointer;
   border:2px solid var(--ink); border-radius:3px; background:none;
   font:inherit; font-size:16px; font-weight:700; color:var(--ink);
 }
@@ -260,6 +264,7 @@ textarea{ resize:vertical; }
 
 /* ---------- sheet + toast ---------- */
 #sheet{ position:fixed; inset:0; z-index:60; background:rgba(19,24,32,.5); display:flex; align-items:flex-end; }
+#sheet[hidden]{ display:none !important; }
 .sheetbox{ background:#fff; width:100%; border-radius:6px 6px 0 0; padding:20px 18px calc(20px + env(safe-area-inset-bottom)); max-height:80vh; overflow:auto; }
 .sheetbox h4{ margin:0 0 14px; font-size:17px; }
 .dayopt{
