@@ -2,19 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Training">
-<meta name="theme-color" content="#f2f5f9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a1018" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light dark">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Training</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training Manual</title>
 <style>
-
   :root{
     --paper:#ffffff;
     --ink:#131820;
@@ -92,403 +82,6 @@
     .d{break-inside:avoid}
     h2{break-after:avoid}
   }
-
-/* ============================================================
-   Soft modern. Light and dark, cool accent.
-   Loaded after the manual's base CSS, so these override it.
-   ============================================================ */
-
-:root{
-  --bg:#f2f5f9;
-  --card:#ffffff;
-  --card-2:#f8fafc;
-  --ink:#0f1723;
-  --ink-2:#334155;
-  --muted:#64748b;
-  --line:#e6ebf2;
-  --line-2:#d4dce7;
-
-  --acc:#0891b2;
-  --acc-ink:#0e7490;
-  --acc-soft:#e0f5fa;
-  --acc-ring:rgba(8,145,178,.22);
-
-  --danger:#be123c;
-  --good:#0f766e;
-
-  /* diagram tokens */
-  --fig:#0f1723;
-  --fig-muted:#64748b;
-  --prop:#94a3b8;
-  --ground:#cbd5e1;
-  --dia-bg:#f1f5f9;
-
-  --r-lg:16px;
-  --r-md:12px;
-  --r-sm:9px;
-  --sh-1:0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.05);
-  --sh-2:0 2px 4px rgba(15,23,42,.05), 0 6px 16px rgba(15,23,42,.07);
-}
-
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#0a1018;
-    --card:#141d2b;
-    --card-2:#1a2432;
-    --ink:#e8eef6;
-    --ink-2:#c2ccd9;
-    --muted:#8d9bad;
-    --line:#22303f;
-    --line-2:#2c3b4d;
-
-    --acc:#22d3ee;
-    --acc-ink:#67e8f9;
-    --acc-soft:#0d2b33;
-    --acc-ring:rgba(34,211,238,.25);
-
-    --danger:#fb7185;
-    --good:#2dd4bf;
-
-    --fig:#e8eef6;
-    --fig-muted:#8d9bad;
-    --prop:#64748b;
-    --ground:#3a4a5e;
-    --dia-bg:#1a2432;
-
-    --sh-1:0 1px 2px rgba(0,0,0,.3);
-    --sh-2:0 2px 6px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.3);
-  }
-}
-
-*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-[hidden]{ display:none !important; }
-
-html{ -webkit-text-size-adjust:100%; background:var(--bg); }
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
-  font-size:16px; line-height:1.55;
-  letter-spacing:-.01em;
-  padding-bottom:calc(84px + env(safe-area-inset-bottom));
-}
-.wrap{ max-width:760px; margin:0 auto; padding:0 14px 32px; }
-
-/* ---------- diagram recolouring ----------
-   CSS beats SVG presentation attributes, so the original hex
-   values stay as a fallback if these rules ever fail to load. */
-[stroke="#f2f4f7"]{ stroke:var(--fig); }
-[fill="#f2f4f7"]{ fill:var(--fig); }
-[stroke="#8b97a8"]{ stroke:var(--prop); }
-[fill="#8b97a8"]{ fill:var(--prop); }
-[stroke="#e8c547"]{ stroke:var(--acc); }
-[fill="#e8c547"]{ fill:var(--acc); }
-[stroke="#64707f"]{ stroke:var(--ground); }
-[fill="#96a1b0"]{ fill:var(--fig-muted); }
-
-.d{
-  margin:0; background:var(--dia-bg); border:1px solid var(--line);
-  border-radius:var(--r-md); overflow:hidden; display:flex; flex-direction:column;
-}
-.d svg{ display:block; width:100%; height:auto; background:transparent; }
-.d figcaption{ padding:0 12px 12px; color:var(--ink); font-size:13.5px; line-height:1.4; }
-.d figcaption b{ display:block; font-weight:650; margin-bottom:3px; }
-.d figcaption span{ color:var(--muted); font-size:12.5px; line-height:1.45; display:block; }
-.d .vol{ color:var(--acc-ink); font-size:12.5px; font-weight:650; margin-top:5px; }
-.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin:14px 0 22px; }
-.wide{ grid-column:1/-1; }
-
-/* ---------- chrome ---------- */
-.topbar{
-  position:sticky; top:0; z-index:40;
-  background:color-mix(in srgb, var(--bg) 82%, transparent);
-  -webkit-backdrop-filter:saturate(180%) blur(18px);
-  backdrop-filter:saturate(180%) blur(18px);
-  border-bottom:1px solid var(--line);
-  padding:calc(8px + env(safe-area-inset-top)) 16px 9px;
-  display:flex; align-items:baseline; gap:9px;
-}
-.topbar b{ font-size:16px; font-weight:650; letter-spacing:-.02em; }
-.topbar span{ color:var(--muted); font-size:12.5px; }
-
-.tabs{
-  position:fixed; left:0; right:0; bottom:0; z-index:50;
-  display:grid; grid-template-columns:repeat(4,1fr);
-  background:color-mix(in srgb, var(--card) 88%, transparent);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  backdrop-filter:saturate(180%) blur(20px);
-  border-top:1px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom);
-}
-.tabs button{
-  appearance:none; border:0; background:none; color:var(--muted);
-  font:inherit; font-size:10.5px; font-weight:550; letter-spacing:0;
-  padding:8px 4px 7px; cursor:pointer;
-  display:flex; flex-direction:column; align-items:center; gap:3px;
-  transition:color .15s;
-}
-.tabs button svg{ width:23px; height:23px; stroke:currentColor; stroke-width:1.7; fill:none;
-  stroke-linecap:round; stroke-linejoin:round; }
-.tabs button.on{ color:var(--acc-ink); }
-.tabs button:active{ opacity:.55; }
-
-/* ---------- cards ---------- */
-.panel, .block{
-  background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg);
-  padding:16px; margin-bottom:10px; box-shadow:var(--sh-1);
-}
-
-/* ---------- today ---------- */
-.daybar{ display:flex; align-items:center; gap:8px; padding:14px 0 10px; }
-.daybar .nav{
-  appearance:none; border:1px solid var(--line); background:var(--card); color:var(--ink-2);
-  width:40px; height:40px; border-radius:var(--r-md); font-size:19px; line-height:1;
-  cursor:pointer; flex:none; box-shadow:var(--sh-1); transition:transform .12s;
-}
-.daybar .nav:active{ transform:scale(.93); }
-.dayinfo{ flex:1; text-align:center; line-height:1.3; }
-.dayinfo b{ display:block; font-size:15px; font-weight:600; }
-.dayinfo span{ color:var(--muted); font-size:12.5px; }
-
-.sesshead{ margin:2px 0 16px; }
-.sessname{ font-size:30px; font-weight:700; letter-spacing:-.03em; margin:0 0 12px; line-height:1.12; }
-.chips{ display:flex; gap:7px; flex-wrap:wrap; }
-.chip{
-  appearance:none; border:0; background:var(--acc-soft); color:var(--acc-ink);
-  font:inherit; font-size:13px; font-weight:600; padding:8px 13px; border-radius:999px;
-  cursor:pointer; transition:transform .12s;
-}
-.chip:active{ transform:scale(.95); }
-.chip.alt{ background:var(--card); color:var(--muted); border:1px solid var(--line); font-weight:500; }
-
-.bhead{ display:flex; align-items:flex-start; gap:12px; }
-.tick{
-  appearance:none; width:28px; height:28px; flex:none; margin-top:1px; cursor:pointer;
-  border:2px solid var(--line-2); border-radius:50%; background:var(--card); position:relative;
-  transition:background .15s, border-color .15s, transform .12s;
-}
-.tick:active{ transform:scale(.9); }
-.tick.on{ background:var(--acc); border-color:var(--acc); }
-.tick.on::after{
-  content:''; position:absolute; left:9px; top:5px; width:6px; height:12px;
-  border:solid #fff; border-width:0 2.5px 2.5px 0; transform:rotate(42deg);
-}
-@media (prefers-color-scheme:dark){ .tick.on::after{ border-color:#0a1018; } }
-.btitle{ flex:1; line-height:1.35; min-width:0; }
-.btitle b{ display:block; font-size:16.5px; font-weight:620; letter-spacing:-.015em; }
-.btitle span{ color:var(--muted); font-size:13.5px; }
-.dia{
-  appearance:none; width:32px; height:32px; flex:none; cursor:pointer;
-  border:1px solid var(--line); border-radius:50%; background:var(--card-2);
-  color:var(--muted); font:inherit; font-size:14px; font-weight:700; transition:all .15s;
-}
-.dia.on{ background:var(--acc); color:#fff; border-color:var(--acc); }
-.diaslot:not(:empty){ margin:14px 0 2px; max-width:250px; }
-
-.sets{ display:flex; gap:8px; margin:14px 0 0; flex-wrap:wrap; }
-.set{ display:flex; flex-direction:column; align-items:center; gap:5px; }
-.set span{ font-size:11px; color:var(--muted); font-weight:600; }
-.set input{ width:58px; text-align:center; }
-
-input[type=number], input[type=date], select, textarea{
-  font:inherit; font-size:16px; color:var(--ink); background:var(--card-2);
-  border:1px solid var(--line); border-radius:var(--r-sm); padding:11px 12px; width:100%;
-  transition:border-color .15s, box-shadow .15s;
-}
-input:focus, select:focus, textarea:focus{
-  outline:0; border-color:var(--acc); box-shadow:0 0 0 3px var(--acc-ring); background:var(--card);
-}
-input[type=number]{ -moz-appearance:textfield; }
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-textarea{ resize:vertical; }
-
-.inline{ display:flex; align-items:center; gap:10px; margin-top:13px; }
-.inline span{ font-size:13.5px; color:var(--muted); flex:none; min-width:104px; }
-.pair{ display:flex; gap:12px; flex-wrap:wrap; }
-.pair .inline{ flex:1; min-width:148px; }
-.pair .inline span{ min-width:0; }
-.stage{ margin:12px 0 0; font-size:13.5px; color:var(--acc-ink); background:var(--acc-soft);
-  padding:9px 12px; border-radius:var(--r-sm); }
-
-.lbl{ display:block; font-size:12px; color:var(--muted); margin-bottom:9px;
-  font-weight:650; text-transform:uppercase; letter-spacing:.05em; }
-.hint{ font-size:13.5px; color:var(--muted); margin:0 0 13px; }
-.steprow{ display:flex; align-items:center; gap:11px; }
-.steprow input{ max-width:140px; }
-.target{ font-size:13.5px; color:var(--muted); }
-.bar{ height:7px; background:var(--line); border-radius:999px; margin-top:12px; overflow:hidden; }
-.bar i{ display:block; height:100%; background:var(--acc); border-radius:999px; transition:width .3s; }
-
-.done{
-  appearance:none; width:100%; margin:6px 0 70px; padding:16px; cursor:pointer;
-  border:0; border-radius:var(--r-md); background:var(--ink); color:var(--bg);
-  font:inherit; font-size:16px; font-weight:650; box-shadow:var(--sh-2);
-  transition:transform .12s, background .15s;
-}
-.done:active{ transform:scale(.98); }
-.done.is-done{ background:var(--acc); color:#fff; }
-
-/* ---------- manual ---------- */
-.sect{ background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg);
-  margin-bottom:9px; overflow:hidden; box-shadow:var(--sh-1); }
-.secthead{
-  appearance:none; width:100%; text-align:left; background:none; border:0; cursor:pointer;
-  font:inherit; font-size:17px; font-weight:640; letter-spacing:-.02em; color:var(--ink);
-  padding:17px 42px 17px 17px; position:relative;
-}
-.secthead i{ position:absolute; right:19px; top:50%; width:8px; height:8px; margin-top:-6px;
-  border:solid var(--muted); border-width:0 2px 2px 0; transform:rotate(45deg); transition:transform .2s; }
-.sect.open .secthead i{ transform:rotate(-135deg); margin-top:-2px; }
-.sect.open .secthead{ color:var(--acc-ink); }
-.sectbody{ display:none; padding:0 17px 18px; }
-.sect.open .sectbody{ display:block; }
-.sectbody > *:first-child{ margin-top:0; }
-
-h2{ font-size:21px; font-weight:680; letter-spacing:-.025em; margin:30px 0 6px; }
-h3{ font-size:17px; font-weight:640; margin:26px 0 9px; letter-spacing:-.015em; }
-h4{ font-size:13px; margin:22px 0 8px; font-weight:650; color:var(--muted);
-  text-transform:uppercase; letter-spacing:.05em; }
-p{ margin:0 0 13px; color:var(--ink-2); }
-.lede{ color:var(--muted); }
-.rule{ display:none; }
-
-table{ width:100%; border-collapse:collapse; margin:13px 0 20px; font-size:14.5px; }
-th{ text-align:left; font-weight:650; padding:9px 10px 9px 0; border-bottom:1.5px solid var(--line-2);
-  vertical-align:bottom; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
-td{ padding:10px 10px 10px 0; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-2); }
-td:last-child, th:last-child{ padding-right:0; }
-ul,ol{ margin:0 0 15px; padding-left:19px; color:var(--ink-2); }
-li{ margin-bottom:6px; }
-
-.note{ border:0; border-left:3px solid var(--acc); background:var(--acc-soft); color:var(--ink);
-  padding:13px 15px; margin:17px 0; font-size:14.5px; border-radius:0 var(--r-sm) var(--r-sm) 0; }
-.note strong{ display:block; margin-bottom:3px; font-weight:650; }
-.warn{ border:0; border-left:3px solid var(--muted); background:var(--card-2); color:var(--ink);
-  padding:13px 15px; margin:17px 0; font-size:14.5px; border-radius:0 var(--r-sm) var(--r-sm) 0; }
-.warn strong{ display:block; margin-bottom:3px; font-weight:650; }
-
-/* ---------- history ---------- */
-.empty{ color:var(--muted); padding:28px 0; text-align:center; }
-.big{ font-size:34px; font-weight:700; margin:0; letter-spacing:-.03em; }
-.big span{ font-size:15px; font-weight:400; color:var(--muted); letter-spacing:-.01em; }
-.spark .sparkhead{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:9px; }
-.spark .sparkhead b{ font-size:15px; font-weight:620; }
-.spark .sparkhead span{ font-size:14px; color:var(--muted); font-weight:600; }
-.spark .sparkhead .up{ color:var(--good); }
-.spark .sparkhead .dn{ color:var(--danger); }
-.sl{ width:100%; height:46px; display:block; background:var(--card-2);
-  border-radius:var(--r-sm); border:1px solid var(--line); }
-.histrow{
-  appearance:none; width:100%; display:flex; gap:12px; align-items:center; cursor:pointer;
-  background:var(--card); border:1px solid var(--line); border-radius:var(--r-md);
-  padding:14px; font:inherit; text-align:left; margin-bottom:7px; box-shadow:var(--sh-1);
-  transition:transform .12s;
-}
-.histrow:active{ transform:scale(.99); }
-.hd{ font-size:12.5px; color:var(--muted); flex:none; width:88px; font-variant-numeric:tabular-nums; }
-.hn{ flex:1; font-size:15px; font-weight:550; }
-.hs{ color:var(--acc); font-weight:700; }
-.histdetail:not(:empty){ padding:2px 14px 16px; margin:-4px 0 9px; background:var(--card-2);
-  border:1px solid var(--line); border-radius:0 0 var(--r-md) var(--r-md); }
-.histdetail dl{ margin:0; display:grid; grid-template-columns:auto 1fr; gap:5px 14px; font-size:14px; padding-top:12px; }
-.histdetail dt{ color:var(--muted); }
-.histdetail dd{ margin:0; color:var(--ink-2); }
-.hnote{ font-size:14px; color:var(--muted); margin:11px 0 0; font-style:italic; }
-
-/* ---------- data ---------- */
-.act{
-  appearance:none; display:block; width:100%; text-align:center; cursor:pointer;
-  border:0; border-radius:var(--r-md); background:var(--acc); color:#fff;
-  font:inherit; font-size:15px; font-weight:650; padding:14px; margin-bottom:9px;
-  transition:transform .12s;
-}
-.act:active{ transform:scale(.98); }
-.act.ghost{ background:var(--card-2); color:var(--ink); border:1px solid var(--line); font-weight:550; }
-.act.danger{ background:var(--card-2); color:var(--danger); border:1px solid var(--line); }
-
-/* ---------- timer ---------- */
-#timer{
-  position:fixed; z-index:45; right:12px; bottom:calc(88px + env(safe-area-inset-bottom));
-  background:var(--card); border:1px solid var(--line); box-shadow:var(--sh-2);
-  border-radius:var(--r-md); padding:7px;
-  display:flex; align-items:center; gap:6px; flex-wrap:wrap; max-width:calc(100vw - 24px);
-}
-#timer button{
-  appearance:none; border:0; background:var(--card-2); color:var(--ink);
-  font:inherit; font-size:13px; font-weight:600; padding:10px 12px;
-  border-radius:var(--r-sm); cursor:pointer; transition:transform .12s;
-}
-#timer button:active{ transform:scale(.94); }
-#topen{ color:var(--acc-ink) !important; background:var(--acc-soft) !important; }
-#tpanel{ display:none; grid-template-columns:repeat(4,1fr); gap:6px; }
-#timer.open #tpanel{ display:grid; }
-#timer.open #topen{ background:var(--acc) !important; color:#fff !important; }
-#tpanel button{ min-width:52px; text-align:center; }
-#tval{
-  display:none; font-size:21px; font-weight:700; color:var(--acc-ink);
-  min-width:60px; text-align:center; font-variant-numeric:tabular-nums; padding:0 5px;
-}
-#tstop{ display:none; }
-#timer.running #tval, #timer.running #tstop{ display:block; }
-#timer.running #topen, #timer.running #tpanel{ display:none; }
-
-/* ---------- sheet + toast ---------- */
-#sheet{ position:fixed; inset:0; z-index:60; background:rgba(8,14,22,.45);
-  -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
-  display:flex; align-items:flex-end; }
-#sheet[hidden]{ display:none !important; }
-.sheetbox{ background:var(--card); width:100%; border-radius:20px 20px 0 0;
-  padding:22px 16px calc(18px + env(safe-area-inset-bottom)); max-height:82vh; overflow:auto; }
-.sheetbox h4{ margin:0 0 15px; font-size:17px; text-transform:none; letter-spacing:-.02em;
-  color:var(--ink); font-weight:650; }
-.dayopt{
-  appearance:none; display:block; width:100%; text-align:left; cursor:pointer;
-  background:var(--card-2); border:1px solid var(--line); border-radius:var(--r-md);
-  font:inherit; font-size:15px; padding:14px; margin-bottom:8px; color:var(--ink);
-}
-.dayopt.on{ border-color:var(--acc); background:var(--acc-soft); color:var(--acc-ink); font-weight:650; }
-#toast{
-  position:fixed; left:50%; bottom:calc(100px + env(safe-area-inset-bottom)); transform:translate(-50%,10px);
-  background:var(--ink); color:var(--bg); font-size:14px; font-weight:550;
-  padding:12px 18px; border-radius:999px; box-shadow:var(--sh-2);
-  opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:70;
-}
-#toast.on{ opacity:1; transform:translate(-50%,0); }
-
-@media (max-width:400px){
-  .sessname{ font-size:26px; }
-  .grid{ grid-template-columns:repeat(auto-fill,minmax(134px,1fr)); }
-}
-@media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } }
-
-/* ---------- video links ----------
-   Deliberately distinct from the diagram button: these need a
-   connection, and that should be obvious before you're in a park. */
-.yt{
-  display:inline-flex; align-items:center; gap:6px; text-decoration:none;
-  font-size:13px; font-weight:600; color:var(--acc-ink);
-  background:var(--acc-soft); border:1px solid transparent;
-  padding:8px 13px; border-radius:999px; transition:transform .12s, opacity .2s;
-}
-.yt:active{ transform:scale(.95); }
-.yt svg{ width:15px; height:15px; stroke:currentColor; stroke-width:1.8; fill:none;
-  stroke-linejoin:round; flex:none; }
-.yt.icon{
-  width:32px; height:32px; flex:none; padding:0; justify-content:center;
-  background:var(--card-2); border-color:var(--line); color:var(--muted);
-}
-.yt.icon svg{ width:17px; height:17px; }
-.yt.mini{ margin-top:9px; padding:6px 11px; font-size:12.5px; }
-.yt.mini svg{ width:13px; height:13px; }
-
-body.offline .yt{ opacity:.4; }
-body.offline .yt::after{ content:' · offline'; font-weight:500; }
-body.offline .yt.icon::after{ content:none; }
-
-.learn{ border-top:1px solid var(--line); padding:15px 0; }
-.learn:first-of-type{ border-top:0; padding-top:4px; }
-.learn b{ display:block; font-size:16px; font-weight:640; letter-spacing:-.015em; margin-bottom:4px; }
-.learn p{ margin:0 0 11px; font-size:14.5px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -499,12 +92,28 @@ body.offline .yt.icon::after{ content:none; }
   </marker>
 </defs></svg>
 
-<header class="topbar"><b>Training</b><span>6 am walk · 6 pm session</span></header>
+<header class="mast">
+  <div class="wrap">
+    <h1>Training Manual</h1>
+    <p>Walk at 6 am. Train at 6 pm. Five sessions, two recovery days, 10,000 steps.</p>
+    <div class="kit">6&nbsp;kg and 10&nbsp;kg kettlebells · push-up board · 3&nbsp;ft loaded rod · agility ladder and cones · resistance parachute · pull-up bar</div>
+  </div>
+</header>
 
-<main class="wrap">
-  <div id="view-today"></div>
-  <div id="view-manual" hidden>
+<div class="wrap">
 
+<div class="toc">
+  <ol>
+    <li>Daily structure</li>
+    <li>Weekly schedule</li>
+    <li>The five sessions</li>
+    <li>Warm-ups</li>
+    <li>Cool-downs</li>
+    <li>Drill patterns</li>
+    <li>Walking</li>
+    <li>Progression and rules</li>
+  </ol>
+</div>
 
 <h2>1 &nbsp;Daily structure</h2>
 <hr class="rule">
@@ -562,7 +171,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="pull-up" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M44 22 L46 44 L58 54"/><path d="M76 22 L74 44 L62 54"/>
 <path d="M60 52 L60 80"/><path d="M60 80 L53 104"/><path d="M60 80 L67 104"/>
@@ -572,7 +181,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M98 72 L98 40" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Pull-up</b><span>Dead hang to chin clearly over the bar, controlled all the way down.</span><span class="vol">4 sets</span></figcaption></figure>
 
-<figure data-ex="negative-pull-up" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M44 22 L44 40"/><path d="M76 22 L76 40"/>
 <path d="M44 40 L58 50"/><path d="M76 40 L62 50"/>
@@ -583,7 +192,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M98 40 L98 76" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Negative pull-up</b><span>Jump or step to the top, then lower over 3–5 seconds. Your starting point if you have fewer than 3 clean reps.</span></figcaption></figure>
 
-<figure data-ex="push-up-on-the-board" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <rect x="24" y="92" width="28" height="10" rx="2" fill="#8b97a8"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M44 82 L72 90 L98 102"/>
@@ -595,7 +204,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M76 74 L76 60" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Push-up on the board</b><span>Rigid line from head to heels. Chest to the board, elbows about 45°.</span><span class="vol">4 sets, two grips</span></figcaption></figure>
 
-<figure data-ex="rod-bent-over-row" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 46 L74 62"/>
 <path d="M74 62 L76 84 L74 104"/>
@@ -608,7 +217,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M92 86 L92 66" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Rod bent-over row</b><span>Hinge to about 45°, flat back. Pull to the navel, squeeze, lower under control.</span><span class="vol">3 × 10</span></figcaption></figure>
 
-<figure data-ex="rod-overhead-press" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 46 L60 76"/><path d="M60 76 L53 104"/><path d="M60 76 L67 104"/>
 <path d="M60 50 L46 34 L46 22"/><path d="M60 50 L74 34 L74 22"/>
@@ -620,7 +229,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M100 46 L100 26" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Rod overhead press</b><span>Squeeze glutes and brace the ribs down. Press straight up — no leaning back.</span><span class="vol">3 × 8</span></figcaption></figure>
 
-<figure data-ex="band-face-pull" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M46 46 L46 76"/><path d="M46 76 L39 104"/><path d="M46 76 L53 104"/>
 <path d="M46 50 L34 38 L48 34"/><path d="M46 50 L58 40 L48 32"/>
@@ -668,7 +277,7 @@ body.offline .yt.icon::after{ content:none; }
 </ul>
 
 <div class="grid">
-<figure data-ex="run-walk-stride" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 44 L62 72"/>
 <path d="M62 72 L48 86 L44 102"/>
@@ -702,7 +311,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="clean" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 40 L60 70"/><path d="M60 70 L51 88 L49 106"/><path d="M60 70 L69 88 L71 106"/>
 <path d="M60 46 L48 58"/><path d="M60 46 L72 56 L64 64"/>
@@ -714,7 +323,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Clean</b><span>Snap the hips, guide the bell to the rack. It should land softly on the forearm, not bang the wrist.</span><span class="vol">× 3</span></figcaption></figure>
 
-<figure data-ex="overhead-press" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 44 L60 74"/><path d="M60 74 L51 90 L49 106"/><path d="M60 74 L69 90 L71 106"/>
 <path d="M60 48 L48 60"/><path d="M60 48 L70 34 L70 24"/>
@@ -726,7 +335,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Overhead press</b><span>Lock out with the bell over the shoulder joint, biceps near the ear. Ribs down, glutes tight.</span><span class="vol">× 3</span></figcaption></figure>
 
-<figure data-ex="goblet-squat" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 50 L62 74"/><path d="M62 74 L44 82 L44 104"/><path d="M62 74 L80 82 L80 104"/>
 <path d="M60 54 L50 62 L56 68"/><path d="M60 54 L70 62 L64 68"/>
@@ -738,7 +347,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Goblet squat</b><span>Bell at the chest, elbows inside the knees. Sit down between the hips, chest tall.</span><span class="vol">× 3</span></figcaption></figure>
 
-<figure data-ex="single-arm-row" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M32 48 L72 62"/><path d="M72 62 L74 84 L72 106"/>
 <path d="M40 52 L42 68 L54 70"/>
@@ -757,7 +366,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="swing" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M36 46 L70 58"/><path d="M70 58 L72 82 L70 106"/>
 <path d="M44 50 L70 58"/>
@@ -769,7 +378,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Swing</b><span>A hinge, not a squat. The bell floats up from hip snap — never lift it with the arms.</span><span class="vol">× 6</span></figcaption></figure>
 
-<figure data-ex="high-pull" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 42 L60 72"/><path d="M60 72 L51 90 L49 106"/><path d="M60 72 L69 90 L71 106"/>
 <path d="M60 46 L48 58"/><path d="M60 46 L82 44 L70 54"/>
@@ -781,7 +390,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>High pull</b><span>Same hip snap as the swing, but the elbow drives high and wide as the bell reaches shoulder height.</span><span class="vol">× 6</span></figcaption></figure>
 
-<figure data-ex="push-press" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 44 L60 74"/><path d="M60 74 L50 88 L50 106"/><path d="M60 74 L70 88 L70 106"/>
 <path d="M60 48 L48 60"/><path d="M60 48 L70 34 L70 24"/>
@@ -794,7 +403,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Push press</b><span>A short dip through the knees, then drive the bell overhead with the legs. Arms finish the job.</span><span class="vol">× 6</span></figcaption></figure>
 
-<figure data-ex="reverse-lunge" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M54 42 L54 72"/><path d="M54 72 L44 90 L42 106"/><path d="M54 72 L74 84 L86 100 L86 106"/>
 <path d="M54 48 L44 60 L50 66"/><path d="M54 48 L64 58"/>
@@ -813,7 +422,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="racked-carry" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 44 L58 72"/><path d="M58 72 L46 86 L44 104"/><path d="M58 72 L72 84 L78 100"/>
 <path d="M56 48 L44 58 L52 64"/><path d="M56 48 L68 34 L68 24"/>
@@ -826,7 +435,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Racked carry</b><span>One bell racked, one locked overhead. Walk tall and slow — this is a core exercise disguised as a walk.</span><span class="vol">20 m per side</span></figcaption></figure>
 
-<figure data-ex="rod-rdl" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 50 L74 62"/><path d="M74 62 L76 84 L74 106"/>
 <path d="M44 54 L48 84"/>
@@ -838,7 +447,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Rod RDL</b><span>Push the hips back, soft knees, flat back. Feel the hamstrings load. Stop when the back would round.</span><span class="vol">3 × 10</span></figcaption></figure>
 
-<figure data-ex="rod-floor-press" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="12" y1="96" x2="108" y2="96" stroke="#64707f" stroke-width="2"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 92 L68 92"/><path d="M68 92 L80 78 L92 92"/>
@@ -880,7 +489,7 @@ body.offline .yt.icon::after{ content:none; }
 </table>
 
 <div class="grid">
-<figure data-ex="parachute-sprint" class="d wide"><svg viewBox="0 0 240 120">
+<figure class="d wide"><svg viewBox="0 0 240 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M78 44 L86 72"/>
 <path d="M86 72 L70 86 L64 102"/>
@@ -909,7 +518,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="broad-jump" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 46 L44 70"/><path d="M44 70 L34 84 L30 98"/><path d="M44 70 L52 84 L48 98"/>
 <path d="M40 50 L24 42"/><path d="M40 50 L26 56"/>
@@ -919,7 +528,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Broad jump</b><span>Swing the arms, jump forward for distance, land soft with hips back. Reset fully before the next rep.</span><span class="vol">4 × 5</span></figcaption></figure>
 
-<figure data-ex="cone-or-hurdle-hop" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M46 40 L48 62"/><path d="M48 62 L38 74 L40 84"/><path d="M48 62 L58 74 L56 84"/>
 <path d="M46 44 L32 38"/><path d="M46 44 L60 38"/>
@@ -930,7 +539,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Cone or hurdle hop</b><span>Two feet, quick off the ground. Minimal ground contact time — think hot floor.</span><span class="vol">4 × 6</span></figcaption></figure>
 
-<figure data-ex="lateral-bound" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M38 42 L40 66"/><path d="M40 66 L30 82 L28 98"/><path d="M40 66 L54 78"/>
 <path d="M38 46 L26 54"/><path d="M38 46 L54 44"/>
@@ -958,7 +567,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="easy-walk" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 40 L60 68"/><path d="M60 68 L50 86 L46 104"/><path d="M60 68 L70 86 L76 104"/>
 <path d="M60 46 L48 60"/><path d="M60 46 L72 56"/>
@@ -968,7 +577,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Easy walk</b><span>Relaxed pace to raise core temperature before anything else.</span><span class="vol">3 min</span></figcaption></figure>
 
-<figure data-ex="ankle-circles" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 40 L56 68"/><path d="M56 68 L52 86 L52 104"/><path d="M56 68 L70 82 L76 92"/>
 <path d="M56 46 L44 58"/><path d="M56 46 L68 58"/>
@@ -978,7 +587,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Ankle circles</b><span>Lift one foot, draw slow circles from the ankle joint only.</span><span class="vol">10 each direction</span></figcaption></figure>
 
-<figure data-ex="calf-raises" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 36 L60 64"/><path d="M60 64 L53 86 L53 94"/><path d="M60 64 L67 86 L67 94"/>
 <path d="M53 94 L46 100"/><path d="M67 94 L74 100"/>
@@ -989,7 +598,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Calf raises</b><span>Rise onto the toes, pause at the top, lower slowly.</span><span class="vol">15 reps</span></figcaption></figure>
 
-<figure data-ex="leg-swings-forward-and-back" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="98" y1="18" x2="98" y2="104" stroke="#8b97a8" stroke-width="4"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 40 L56 68"/><path d="M56 68 L54 86 L54 104"/><path d="M56 68 L38 78 L28 84"/>
@@ -1000,7 +609,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Leg swings, forward and back</b><span>Hand on a wall for balance. Relaxed leg, let it swing — don't force the range.</span><span class="vol">12 per leg</span></figcaption></figure>
 
-<figure data-ex="leg-swings-side-to-side" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 40 L60 68"/><path d="M60 68 L54 86 L54 104"/><path d="M60 68 L80 78 L92 82"/>
 <path d="M60 46 L42 52"/><path d="M60 46 L78 52"/>
@@ -1010,7 +619,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Leg swings, side to side</b><span>Facing forward, swing one leg across the body and out. Wakes up the inner and outer thigh.</span><span class="vol">12 per leg</span></figcaption></figure>
 
-<figure data-ex="high-knee-to-knee-hug" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M58 40 L58 68"/><path d="M58 68 L56 86 L56 104"/><path d="M58 68 L74 62 L70 78"/>
 <path d="M58 46 L70 60"/><path d="M58 46 L74 66"/>
@@ -1020,7 +629,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>High knee to knee hug</b><span>Pull the knee to the chest, stand tall, then step through into the next one.</span><span class="vol">10 total</span></figcaption></figure>
 
-<figure data-ex="walking-butt-kicks" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M58 40 L58 68"/><path d="M58 68 L52 86 L52 104"/><path d="M58 68 L70 80 L60 72"/>
 <path d="M58 46 L46 58"/><path d="M58 46 L70 56"/>
@@ -1030,7 +639,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Walking butt kicks</b><span>Heel to the glute, thigh staying under the body. Dynamic quad stretch.</span><span class="vol">12 per leg</span></figcaption></figure>
 
-<figure data-ex="bodyweight-squat" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M58 48 L60 72"/><path d="M60 72 L44 80 L44 102"/><path d="M60 72 L78 80 L78 102"/>
 <path d="M58 52 L80 52"/><path d="M58 56 L80 58"/>
@@ -1040,7 +649,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Bodyweight squat</b><span>Feet shoulder width, sit down between the hips, arms counterbalancing in front.</span><span class="vol">10 reps</span></figcaption></figure>
 
-<figure data-ex="strides-friday-only" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 42 L62 70"/><path d="M62 70 L48 84 L44 100"/><path d="M62 70 L78 80 L86 94"/>
 <path d="M58 48 L44 58 L48 70"/><path d="M58 48 L74 42 L80 52"/>
@@ -1062,7 +671,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="arm-circles" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 40 L60 72"/><path d="M60 72 L52 100"/><path d="M60 72 L68 100"/>
 <path d="M60 46 L40 40"/><path d="M60 46 L80 52"/>
@@ -1073,7 +682,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Arm circles</b><span>Small circles growing larger. Forward, then backward.</span><span class="vol">12 each way</span></figcaption></figure>
 
-<figure data-ex="shoulder-dislocates" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 42 L60 74"/><path d="M60 74 L52 102"/><path d="M60 74 L68 102"/>
 <path d="M60 48 L36 30"/><path d="M60 48 L84 30"/>
@@ -1084,7 +693,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Shoulder dislocates</b><span>Wide grip on a band or towel. Take it overhead and behind, arms straight throughout.</span><span class="vol">10 reps</span></figcaption></figure>
 
-<figure data-ex="cat-cow" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M38 62 Q60 46 82 62"/>
 <path d="M38 62 L38 98"/><path d="M82 62 L82 98"/>
@@ -1096,7 +705,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Cat-cow</b><span>On hands and knees. Round the spine up, then drop the belly and lift the chest. Move with the breath.</span><span class="vol">8 reps</span></figcaption></figure>
 
-<figure data-ex="bird-dog" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M42 60 L82 60"/>
 <path d="M42 60 L42 96"/><path d="M82 60 L82 96"/>
@@ -1107,7 +716,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="98" x2="108" y2="98" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Bird-dog</b><span>Opposite arm and leg extended, hips level. Hold two seconds, switch. No twisting.</span><span class="vol">8 per side</span></figcaption></figure>
 
-<figure data-ex="scapular-pull-up" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="16" y1="22" x2="104" y2="22" stroke="#8b97a8" stroke-width="4" stroke-linecap="round"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M46 22 L48 50"/><path d="M74 22 L72 50"/>
@@ -1117,7 +726,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M96 34 L96 50" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Scapular pull-up</b><span>Hang with straight arms, then pull the shoulder blades down without bending the elbows. Small range, big effect.</span><span class="vol">8 reps</span></figcaption></figure>
 
-<figure data-ex="incline-push-up" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <rect x="20" y="60" width="26" height="9" rx="2" fill="#8b97a8"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 54 L70 76 L96 98"/>
@@ -1135,7 +744,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="worlds-greatest-stretch" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 54 L58 68"/>
 <path d="M58 68 L74 70 L74 92 L82 100"/>
@@ -1148,7 +757,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>World's greatest stretch</b><span>Deep lunge, one hand inside the front foot, other arm reaching up as the chest rotates open.</span><span class="vol">5 per side</span></figcaption></figure>
 
-<figure data-ex="bodyweight-hip-hinge" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 50 L74 62"/><path d="M74 62 L76 84 L74 104"/>
 <path d="M42 54 L50 76"/>
@@ -1158,7 +767,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="106" x2="108" y2="106" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Bodyweight hip hinge</b><span>Hands on the thighs, push the hips straight back with a flat back. This is the swing pattern, unloaded.</span><span class="vol">12 reps</span></figcaption></figure>
 
-<figure data-ex="squat-with-pause" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M58 50 L60 76"/><path d="M60 76 L42 84 L42 104"/><path d="M60 76 L78 84 L78 104"/>
 <path d="M58 54 L80 54"/><path d="M58 58 L80 60"/>
@@ -1169,7 +778,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Squat with pause</b><span>Sit into the bottom and hold two seconds. Opens hips, ankles and groin for goblet squats and cleans.</span><span class="vol">10 reps</span></figcaption></figure>
 
-<figure data-ex="kettlebell-halo" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 44 L60 74"/><path d="M60 74 L52 102"/><path d="M60 74 L68 102"/>
 <path d="M60 48 L46 34"/><path d="M60 48 L74 34"/>
@@ -1181,7 +790,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Kettlebell halo</b><span>Six kilo bell circling close around the head. Ribs stay down, hips still.</span><span class="vol">8 each direction</span></figcaption></figure>
 
-<figure data-ex="light-swings-6-kg" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M36 46 L70 58"/><path d="M70 58 L72 82 L70 106"/>
 <path d="M44 50 L66 66"/>
@@ -1203,7 +812,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="wall-calf-knee-straight" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="100" y1="16" x2="100" y2="104" stroke="#8b97a8" stroke-width="4"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 40 L54 66"/><path d="M54 66 L28 92 L24 104"/><path d="M54 66 L76 84 L86 100"/>
@@ -1214,7 +823,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Wall calf, knee straight</b><span>Back leg straight, heel pressed flat. Stretches the upper calf.</span><span class="vol">2 × 20–30 sec per leg</span></figcaption></figure>
 
-<figure data-ex="wall-calf-knee-bent" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="100" y1="16" x2="100" y2="104" stroke="#8b97a8" stroke-width="4"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 40 L54 66"/><path d="M54 66 L32 82 L26 104"/><path d="M54 66 L76 84 L86 100"/>
@@ -1225,7 +834,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Wall calf, knee bent</b><span>Same position, back knee softly bent. Reaches the deeper soleus and the Achilles.</span><span class="vol">2 × 20–30 sec per leg</span></figcaption></figure>
 
-<figure data-ex="kneeling-hip-flexor" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M52 42 L54 70"/><path d="M54 70 L76 74 L76 100"/><path d="M54 70 L34 84 L22 100"/>
 <path d="M52 48 L64 62"/>
@@ -1235,7 +844,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Kneeling hip flexor</b><span>Half-kneeling, squeeze the rear glute and push the hips gently forward. The main antidote to sitting.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="standing-hamstring-hinge" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 54 L66 66"/><path d="M66 66 L38 88 L26 92"/><path d="M66 66 L74 86 L74 100"/>
 <path d="M42 58 L36 82"/>
@@ -1245,7 +854,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Standing hamstring hinge</b><span>Front leg straight, toes up, hinge from the hips with a flat back.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="pigeon-or-figure-4" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M34 60 L62 76"/><path d="M62 76 L100 88"/><path d="M40 84 L74 84"/><path d="M40 84 L38 74"/>
 </g>
@@ -1253,7 +862,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="92" x2="108" y2="92" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Pigeon or figure-4</b><span>Front shin across the body, back leg long behind, fold forward. Figure-4 on your back is the easier version.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="standing-quad-stretch" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M58 40 L58 70"/><path d="M58 70 L54 88 L54 104"/><path d="M58 70 L72 84 L60 78"/>
 <path d="M58 46 L40 54"/><path d="M58 46 L70 66 L62 78"/>
@@ -1269,7 +878,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="doorway-chest-stretch" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="92" y1="14" x2="92" y2="104" stroke="#8b97a8" stroke-width="5"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M56 42 L56 72"/><path d="M56 72 L48 100"/><path d="M56 72 L66 98"/>
@@ -1280,7 +889,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Doorway chest stretch</b><span>Forearm flat on the frame, elbow at 90°. Step through until the chest opens.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="overhead-lat-and-tricep" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M62 42 L56 72"/><path d="M56 72 L50 100"/><path d="M56 72 L64 100"/>
 <path d="M62 48 L78 32 L60 26"/><path d="M62 48 L46 34 L58 24"/>
@@ -1290,7 +899,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Overhead lat and tricep</b><span>Hand behind the head, opposite hand pulls the elbow as you lean slightly to the side.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="cross-body-shoulder" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 42 L60 72"/><path d="M60 72 L52 100"/><path d="M60 72 L68 100"/>
 <path d="M60 48 L36 54"/><path d="M60 48 L44 62 L40 54"/>
@@ -1300,7 +909,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="104" x2="108" y2="104" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Cross-body shoulder</b><span>Arm straight across the chest, opposite hand draws it in above the elbow.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="dead-hang" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <line x1="16" y1="22" x2="104" y2="22" stroke="#8b97a8" stroke-width="4" stroke-linecap="round"/>
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M48 22 L52 54"/><path d="M72 22 L68 54"/>
@@ -1310,7 +919,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M96 40 L96 60" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Dead hang</b><span>Hang relaxed and let the shoulders and spine decompress. Breathe.</span><span class="vol">20–30 sec</span></figcaption></figure>
 
-<figure data-ex="childs-pose" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M84 92 Q66 68 44 78"/><path d="M84 92 L84 76"/><path d="M46 78 L20 92"/>
 </g>
@@ -1325,7 +934,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="downward-dog" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M22 96 L62 40 L98 96"/><path d="M22 96 L26 100"/><path d="M98 96 L94 100"/>
 </g>
@@ -1334,7 +943,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="100" x2="108" y2="100" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Downward dog</b><span>Hips high, heels pressing toward the floor. Calves, hamstrings and lats at once.</span><span class="vol">30 sec</span></figcaption></figure>
 
-<figure data-ex="cobra" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M40 58 Q52 78 96 90"/><path d="M40 62 L40 88"/>
 </g>
@@ -1343,7 +952,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="90" x2="108" y2="90" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Cobra</b><span>Face down, press the chest up with the hips staying on the floor. Gentle — no cranking.</span><span class="vol">20–30 sec</span></figcaption></figure>
 
-<figure data-ex="thread-the-needle" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M44 62 L84 62"/><path d="M84 62 L84 96"/><path d="M44 62 L46 96"/><path d="M46 74 L18 88"/>
 </g>
@@ -1352,7 +961,7 @@ body.offline .yt.icon::after{ content:none; }
 <line x1="12" y1="98" x2="108" y2="98" stroke="#64707f" stroke-width="2"/>
 </svg><figcaption><b>Thread the needle</b><span>From hands and knees, slide one arm under the body and rest the shoulder down. Rotates the upper back.</span><span class="vol">20–30 sec per side</span></figcaption></figure>
 
-<figure data-ex="forearm-and-wrist" class="d"><svg viewBox="0 0 120 120">
+<figure class="d"><svg viewBox="0 0 120 120">
 <g fill="none" stroke="#f2f4f7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M60 44 L60 74"/><path d="M60 74 L52 102"/><path d="M60 74 L68 102"/>
 <path d="M60 50 L34 50 L28 42"/><path d="M60 50 L44 62 L34 52"/>
@@ -1373,7 +982,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="two-feet-in" class="d wide"><svg viewBox="0 0 240 100">
+<figure class="d wide"><svg viewBox="0 0 240 100">
 <g stroke="#8b97a8" stroke-width="3">
 <line x1="20" y1="26" x2="220" y2="26"/><line x1="20" y1="74" x2="220" y2="74"/>
 <line x1="20" y1="26" x2="20" y2="74"/><line x1="60" y1="26" x2="60" y2="74"/><line x1="100" y1="26" x2="100" y2="74"/>
@@ -1389,7 +998,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M228 50 L236 50" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>Two feet in</b><span>Both feet land inside every box before moving to the next. The base pattern — get this rhythmic before the others.</span></figcaption></figure>
 
-<figure data-ex="lateral-shuffle" class="d wide"><svg viewBox="0 0 240 100">
+<figure class="d wide"><svg viewBox="0 0 240 100">
 <g stroke="#8b97a8" stroke-width="3">
 <line x1="20" y1="30" x2="220" y2="30"/><line x1="20" y1="70" x2="220" y2="70"/>
 <line x1="20" y1="30" x2="20" y2="70"/><line x1="60" y1="30" x2="60" y2="70"/><line x1="100" y1="30" x2="100" y2="70"/>
@@ -1398,7 +1007,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M30 88 L50 50 L70 88 L90 50 L110 88 L130 50 L150 88 L170 50 L190 88 L210 50" stroke="#e8c547" stroke-width="2.5" fill="none" stroke-dasharray="5 4" marker-end="url(#ah)"/>
 </svg><figcaption><b>Lateral shuffle</b><span>Facing side-on, travel down the ladder sideways — lead foot in, trail foot follows, hips low the whole way.</span></figcaption></figure>
 
-<figure data-ex="in-in-out-out" class="d wide"><svg viewBox="0 0 240 100">
+<figure class="d wide"><svg viewBox="0 0 240 100">
 <g stroke="#8b97a8" stroke-width="3">
 <line x1="20" y1="34" x2="220" y2="34"/><line x1="20" y1="66" x2="220" y2="66"/>
 <line x1="20" y1="34" x2="20" y2="66"/><line x1="60" y1="34" x2="60" y2="66"/><line x1="100" y1="34" x2="100" y2="66"/>
@@ -1416,7 +1025,7 @@ body.offline .yt.icon::after{ content:none; }
 <path d="M228 50 L236 50" stroke="#e8c547" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
 </svg><figcaption><b>In, in, out, out</b><span>Both feet inside the box, then both feet split outside the rails. Fast and rhythmic, not big steps.</span></figcaption></figure>
 
-<figure data-ex="icky-shuffle" class="d wide"><svg viewBox="0 0 240 100">
+<figure class="d wide"><svg viewBox="0 0 240 100">
 <g stroke="#8b97a8" stroke-width="3">
 <line x1="20" y1="34" x2="220" y2="34"/><line x1="20" y1="66" x2="220" y2="66"/>
 <line x1="20" y1="34" x2="20" y2="66"/><line x1="60" y1="34" x2="60" y2="66"/><line x1="100" y1="34" x2="100" y2="66"/>
@@ -1431,7 +1040,7 @@ body.offline .yt.icon::after{ content:none; }
 
 <div class="grid">
 
-<figure data-ex="t-drill" class="d wide"><svg viewBox="0 0 240 130">
+<figure class="d wide"><svg viewBox="0 0 240 130">
 <g fill="#8b97a8">
 <path d="M114 116 L120 100 L126 116 Z"/>
 <path d="M114 42 L120 26 L126 42 Z"/>
@@ -1446,7 +1055,7 @@ body.offline .yt.icon::after{ content:none; }
 <text x="120" y="128" fill="#96a1b0" font-size="10" text-anchor="middle" font-family="sans-serif">start · 10 m up, 5 m each side</text>
 </svg><figcaption><b>T-drill</b><span>Sprint to the top cone, shuffle left, shuffle all the way right, shuffle back to the middle, then backpedal home. Face forward the whole time.</span><span class="vol">× 4</span></figcaption></figure>
 
-<figure data-ex="5-10-5-shuttle" class="d wide"><svg viewBox="0 0 240 130">
+<figure class="d wide"><svg viewBox="0 0 240 130">
 <g fill="#8b97a8">
 <path d="M34 76 L40 60 L46 76 Z"/>
 <path d="M114 76 L120 60 L126 76 Z"/>
@@ -1458,7 +1067,7 @@ body.offline .yt.icon::after{ content:none; }
 <text x="120" y="118" fill="#96a1b0" font-size="10" text-anchor="middle" font-family="sans-serif">5 m · start in the middle · 5 m</text>
 </svg><figcaption><b>5-10-5 shuttle</b><span>From the middle: 5 m right, 10 m left, 5 m back. Touch the line at every turn and stay low through the change of direction.</span><span class="vol">× 4</span></figcaption></figure>
 
-<figure data-ex="box-drill" class="d wide"><svg viewBox="0 0 240 130">
+<figure class="d wide"><svg viewBox="0 0 240 130">
 <g fill="#8b97a8">
 <path d="M64 104 L70 88 L76 104 Z"/>
 <path d="M64 44 L70 28 L76 44 Z"/>
@@ -1559,731 +1168,6 @@ body.offline .yt.icon::after{ content:none; }
   <tr><td>Agility</td><td>2 × week</td><td>Ladder Wednesday, cones Friday</td></tr>
 </table>
 
-  </div>
-  <div id="view-history" hidden></div>
-  <div id="view-data" hidden></div>
-</main>
-
-<div id="timer" hidden>
-  <button id="topen">Rest timer</button>
-  <div id="tpanel">
-    <button data-rest="10">10s</button>
-    <button data-rest="20">20s</button>
-    <button data-rest="30">30s</button>
-    <button data-rest="45">45s</button>
-    <button data-rest="60">60s</button>
-    <button data-rest="90">90s</button>
-    <button data-rest="120">2m</button>
-    <button data-rest="180">3m</button>
-  </div>
-  <span id="tval">0:00</span>
-  <button id="tstop">Stop</button>
 </div>
-
-<nav class="tabs">
-  <button data-tab="today"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M9 15l2 2 4-4"/></svg>Today</button>
-  <button data-tab="manual"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h13"/><path d="M9 8h6M9 12h4"/></svg>Manual</button>
-  <button data-tab="history"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l4-5 3 3 5-7"/></svg>History</button>
-  <button data-tab="data"><svg viewBox="0 0 24 24"><path d="M12 3v5M12 16v5M4.9 7.5l3.5 2M15.6 14.5l3.5 2M4.9 16.5l3.5-2M15.6 9.5l3.5-2"/><circle cx="12" cy="12" r="3.5"/></svg>Data</button>
-</nav>
-
-<div id="sheet" hidden></div>
-<div id="toast"></div>
-
-<script>
-/* ---------- The plan as data ---------- */
-const DAY_KEYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-
-const PLAN = {
-  monday: {
-    name: 'Upper body strength', warmup: 'B', cooldown: 'B', walk: '45 min',
-    blocks: [
-      {id:'pullup',   name:'Pull-ups',           type:'sets', sets:4, target:'3–5 negatives, or 5–8 strict', ex:'pull-up'},
-      {id:'pushup',   name:'Push-up board',      type:'sets', sets:4, target:'two grip positions', ex:'push-up-on-the-board'},
-      {id:'rod-row',  name:'Rod bent-over row',  type:'sets', sets:3, target:'10 reps', weight:true, ex:'rod-bent-over-row'},
-      {id:'rod-ohp',  name:'Rod overhead press', type:'sets', sets:3, target:'8 reps',  weight:true, ex:'rod-overhead-press'},
-      {id:'facepull', name:'Band face-pulls',    type:'sets', sets:2, target:'15 reps', ex:'band-face-pull'}
-    ]
-  },
-  tuesday: {
-    name: 'Easy run', warmup: 'A', cooldown: 'A', walk: '30 min',
-    blocks: [
-      {id:'run', name:'Run-walk', type:'interval', target:'20 min · conversational pace · 160–170 spm', ex:'run-walk-stride'}
-    ]
-  },
-  wednesday: {
-    name: 'Kettlebell and hinge', warmup: 'C', cooldown: 'C', walk: '45 min',
-    blocks: [
-      {id:'ladder',    name:'Ladder footwork',  type:'contacts', target:'8 min · light contacts', ex:'two-feet-in'},
-      {id:'kb1',       name:'10 kg complex',    type:'complex',  target:'clean → press → goblet squat → row, 3 reps each', rounds:4, bell:10, ex:'clean'},
-      {id:'rod-rdl',   name:'Rod RDL',          type:'sets', sets:3, target:'10 reps', weight:true, ex:'rod-rdl'},
-      {id:'rod-floor', name:'Rod floor press',  type:'sets', sets:3, target:'8 reps',  weight:true, ex:'rod-floor-press'}
-    ]
-  },
-  thursday: {
-    name: 'Active recovery', warmup: '—', cooldown: 'C', walk: '60 min',
-    blocks: [
-      {id:'mobility', name:'Mobility', type:'contacts', target:'10 min · cat-cow, bird-dog, WGS, hip circles', ex:'worlds-greatest-stretch'}
-    ]
-  },
-  friday: {
-    name: 'Speed day', warmup: 'A + strides', cooldown: 'A', walk: '30 min, flat and easy',
-    blocks: [
-      {id:'ladder',  name:'Ladder footwork',   type:'contacts', target:'8 min', ex:'icky-shuffle'},
-      {id:'sprints', name:'Parachute sprints', type:'contacts', target:'6 × 30 m · 90 sec rest · stop when reps slow', ex:'parachute-sprint'},
-      {id:'plyo',    name:'Plyometrics',       type:'contacts', target:'60–80 foot contacts', ex:'broad-jump'},
-      {id:'cones',   name:'Cone agility',      type:'contacts', target:'T-drill ×4 · 5-10-5 ×4 · box ×3', ex:'t-drill'}
-    ]
-  },
-  saturday: {
-    name: 'Easy run', warmup: 'A', cooldown: 'A', walk: '30 min',
-    blocks: [
-      {id:'run', name:'Run-walk', type:'interval', target:'20–25 min · or a 60 min walk if Friday hit hard', ex:'run-walk-stride'}
-    ]
-  },
-  sunday: {
-    name: 'Rest', warmup: '—', cooldown: '—', walk: '60 min',
-    blocks: [
-      {id:'stretch', name:'Optional stretching', type:'contacts', target:'10 min', ex:'childs-pose'}
-    ]
-  }
-};
-
-const RUN_STAGES = [
-  {wk:[1,2],  label:'1 min run / 1.5 min walk × 8 — 20 min'},
-  {wk:[3,4],  label:'2 min run / 1.5 min walk × 6 — 21 min'},
-  {wk:[5,6],  label:'3 min run / 1 min walk × 6 — 24 min'},
-  {wk:[7,8],  label:'5 min run / 1 min walk × 4 — 24 min'},
-  {wk:[9,99], label:'Continuous — 20–25 min'}
-];
-const STEP_STAGES = [
-  {wk:[1,2],  target:6500},
-  {wk:[3,4],  target:8000},
-  {wk:[5,6],  target:9000},
-  {wk:[7,99], target:10000}
-];
-
-/* ---------- Storage ---------- */
-const P = 'tt:';
-const S = {
-  get(k){ try { const v = localStorage.getItem(P+k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
-  set(k,v){ try { localStorage.setItem(P+k, JSON.stringify(v)); return true; } catch(e){ toast('Storage full or blocked'); return false; } },
-  del(k){ localStorage.removeItem(P+k); },
-  keys(){ return Object.keys(localStorage).filter(k => k.indexOf(P)===0).map(k => k.slice(P.length)); }
-};
-
-function settings(){
-  let s = S.get('settings');
-  if(!s){ s = { startDate: today() }; S.set('settings', s); }
-  return s;
-}
-function saveSettings(s){ S.set('settings', s); }
-
-function today(){ return iso(new Date()); }
-function iso(d){
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-function parseISO(s){ const p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
-
-function weekNumber(dateStr){
-  const start = parseISO(settings().startDate);
-  const d = parseISO(dateStr);
-  const days = Math.floor((d - start) / 86400000);
-  return Math.max(1, Math.floor(days/7) + 1);
-}
-function stageFor(list, wk){
-  for(const s of list){ if(wk >= s.wk[0] && wk <= s.wk[1]) return s; }
-  return list[list.length-1];
-}
-
-function getSession(date){ return S.get('session:'+date); }
-function saveSession(sess){ S.set('session:'+sess.date, sess); }
-function allSessions(){
-  return S.keys().filter(k => k.indexOf('session:')===0)
-    .map(k => S.get(k)).filter(Boolean)
-    .sort((a,b) => a.date < b.date ? 1 : -1);
-}
-function lastValue(dayKey, blockId, beforeDate){
-  const list = allSessions().filter(s => s.day === dayKey && s.date < beforeDate);
-  for(const s of list){ if(s.blocks && s.blocks[blockId]) return s.blocks[blockId]; }
-  return null;
-}
-
-/* ---------- App state ---------- */
-let viewDate = today();
-
-function dayKeyFor(date){
-  const s = getSession(date);
-  if(s && s.day) return s.day;
-  return DAY_KEYS[parseISO(date).getDay()];
-}
-
-function ensureSession(date){
-  let s = getSession(date);
-  if(!s) s = { date: date, day: DAY_KEYS[parseISO(date).getDay()], blocks:{}, notes:'', steps:null, done:false };
-  return s;
-}
-
-
-/* ---------- Video help ----------
-   Search URLs, not video IDs. Channels delete and reorganise constantly;
-   a search query never rots. Only the movements where timing matters —
-   a still diagram shows the position but not the rhythm. */
-const YT = 'https://www.youtube.com/results?search_query=';
-const LEARN = [
-  {ex:'clean', name:'Kettlebell clean', q:'hardstyle kettlebell clean technique',
-   why:'Watch the wrist rotation as the bell comes up. It decides whether the bell lands soft on your forearm or bangs it \u2014 the usual reason people give up on cleans.'},
-  {ex:'swing', name:'Kettlebell swing', q:'hardstyle kettlebell swing hinge technique',
-   why:'Watch the hips, not the arms. If the bell is being lifted rather than floating up from hip snap, the pattern is wrong and no amount of reps fixes it.'},
-  {ex:'high-pull', name:'High pull', q:'kettlebell high pull technique',
-   why:'Watch where the elbow goes. It leads high and wide and the bell follows \u2014 pulling with the arm turns it into a bad upright row.'},
-  {ex:'push-press', name:'Push press', q:'kettlebell push press technique',
-   why:'Watch the dip. Short and straight down, a shallow knee bend \u2014 not a squat, and not a forward lean.'},
-  {ex:'racked-carry', name:'Racked carry', q:'kettlebell rack carry technique',
-   why:'Watch the ribs and the trailing shoulder. Any side-lean means the bell is too heavy for the carry.'},
-  {ex:'rod-rdl', name:'Romanian deadlift', q:'romanian deadlift RDL technique',
-   why:'Watch the back angle at the bottom. The moment it rounds, the set is finished \u2014 that point is your range, not the floor.'},
-  {ex:'parachute-sprint', name:'Parachute sprint', q:'resistance parachute sprint training drills',
-   why:'Watch the posture. Upright drive with a tall chest, not a forward lean into the drag. The lean is what wrecks your stride.'},
-  {ex:'broad-jump', name:'Broad jump', q:'broad jump landing technique plyometrics',
-   why:'Watch the landing more than the jump. Hips back, knees tracking over the toes, and silent.'},
-  {ex:'lateral-bound', name:'Lateral bound', q:'lateral bound plyometric drill technique',
-   why:'Watch the pause on landing. Sticking it for a beat is the whole point \u2014 rushing back turns it into hopping.'},
-  {ex:'icky-shuffle', name:'Icky shuffle', q:'icky shuffle agility ladder drill slow',
-   why:'Watch the rhythm, not the feet. Count it aloud as out-in-in until it clicks, then speed up.'},
-  {ex:'t-drill', name:'T-drill', q:'T drill agility cone drill technique',
-   why:'Watch the shuffle sections. Hips stay low, feet never cross, and you face forward the whole way round.'}
-];
-const LEARN_BY_EX = {};
-LEARN.forEach(l => LEARN_BY_EX[l.ex] = l);
-function ytUrl(l){ return YT + encodeURIComponent(l.q); }
-
-function renderLearn(){
-  const root = document.getElementById('view-manual');
-  const g = document.createElement('div');
-  g.className = 'sect';
-  const btn = document.createElement('button');
-  btn.className = 'secthead';
-  btn.innerHTML = 'Learn these first<i></i>';
-  btn.onclick = () => g.classList.toggle('open');
-  const body = document.createElement('div');
-  body.className = 'sectbody';
-  let h = '<p class="lede">Eleven movements where a diagram shows the shape but not the timing. Worth watching once before you first attempt them. These open YouTube, so they need a connection.</p>';
-  LEARN.forEach(l => {
-    h += '<div class="learn"><b>' + l.name + '</b><p>' + l.why + '</p>';
-    h += '<a class="yt" href="' + ytUrl(l) + '" target="_blank" rel="noopener">' + ytIcon() + 'Watch</a></div>';
-  });
-  body.innerHTML = h;
-  g.appendChild(btn); g.appendChild(body);
-  root.insertBefore(g, root.firstChild);
-
-  // and a small link on the matching diagram inside the manual
-  LEARN.forEach(l => {
-    const fig = root.querySelector('figure[data-ex="' + l.ex + '"] figcaption');
-    if(fig && !fig.querySelector('.yt')){
-      const a = document.createElement('a');
-      a.className = 'yt mini'; a.href = ytUrl(l); a.target = '_blank'; a.rel = 'noopener';
-      a.innerHTML = ytIcon() + 'Watch';
-      fig.appendChild(a);
-    }
-  });
-}
-function ytIcon(){
-  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg>';
-}
-function watchOnline(){
-  const sync = () => document.body.classList.toggle('offline', navigator.onLine === false);
-  window.addEventListener('online', sync); window.addEventListener('offline', sync); sync();
-}
-
-/* ---------- Rendering: Today ---------- */
-function renderToday(){
-  const date = viewDate;
-  const dayKey = dayKeyFor(date);
-  const plan = PLAN[dayKey];
-  const sess = ensureSession(date);
-  const wk = weekNumber(date);
-  const stepTarget = stageFor(STEP_STAGES, wk).target;
-
-  const d = parseISO(date);
-  const pretty = d.toLocaleDateString(undefined, {weekday:'long', day:'numeric', month:'long'});
-
-  let h = '';
-  h += '<div class="daybar">';
-  h += '<button class="nav" data-shift="-1" aria-label="Previous day">‹</button>';
-  h += '<div class="dayinfo"><b>' + pretty + '</b><span>Week ' + wk + ' · step target ' + stepTarget.toLocaleString() + '</span></div>';
-  h += '<button class="nav" data-shift="1" aria-label="Next day">›</button>';
-  h += '</div>';
-
-  h += '<div class="sesshead">';
-  h += '<h2 class="sessname">' + plan.name + '</h2>';
-  h += '<div class="chips">';
-  if(plan.warmup !== '—') h += '<button class="chip" data-goto="warmup">Warm-up ' + plan.warmup + '</button>';
-  if(plan.cooldown !== '—') h += '<button class="chip" data-goto="cooldown">Cool-down ' + plan.cooldown + '</button>';
-  h += '<button class="chip alt" id="swapday">Change day</button>';
-  h += '</div></div>';
-
-  h += '<div id="blocks">';
-  plan.blocks.forEach(b => { h += renderBlock(b, sess, dayKey, date, wk); });
-  h += '</div>';
-
-  h += '<div class="panel"><label class="lbl" for="steps">Steps today</label>';
-  h += '<div class="steprow"><input id="steps" type="number" inputmode="numeric" placeholder="—" value="' + (sess.steps != null ? sess.steps : '') + '">';
-  h += '<span class="target">of ' + stepTarget.toLocaleString() + '</span></div>';
-  h += '<div class="bar"><i style="width:' + Math.min(100, Math.round((sess.steps||0)/stepTarget*100)) + '%"></i></div></div>';
-
-  h += '<div class="panel"><label class="lbl" for="notes">Notes</label>';
-  h += '<textarea id="notes" rows="2" placeholder="How it felt, anything that hurt…">' + esc(sess.notes || '') + '</textarea></div>';
-
-  h += '<button id="donebtn" class="done' + (sess.done ? ' is-done' : '') + '">' + (sess.done ? 'Session complete ✓' : 'Mark session complete') + '</button>';
-
-  document.getElementById('view-today').innerHTML = h;
-  wireToday(date, dayKey);
-}
-
-function renderBlock(b, sess, dayKey, date, wk){
-  const logged = sess.blocks[b.id] || {};
-  const prev = lastValue(dayKey, b.id, date);
-  let h = '<section class="block" data-block="' + b.id + '">';
-  h += '<div class="bhead"><button class="tick' + (logged.done ? ' on' : '') + '" data-tick="' + b.id + '" aria-label="Mark done"></button>';
-  h += '<div class="btitle"><b>' + b.name + '</b><span>' + b.target + '</span></div>';
-  if(b.ex) h += '<button class="dia" data-dia="' + b.ex + '" aria-label="Show diagram">?</button>';
-  if(b.ex && LEARN_BY_EX[b.ex]) h += '<a class="yt icon" href="' + ytUrl(LEARN_BY_EX[b.ex]) + '" target="_blank" rel="noopener" aria-label="Watch tutorial">' + ytIcon() + '</a>';
-  h += '</div>';
-  h += '<div class="diaslot"></div>';
-
-  if(b.type === 'sets'){
-    h += '<div class="sets">';
-    for(let i=0;i<b.sets;i++){
-      const v = (logged.sets && logged.sets[i] != null) ? logged.sets[i] : '';
-      const ph = (prev && prev.sets && prev.sets[i] != null) ? prev.sets[i] : '–';
-      h += '<label class="set"><span>' + (i+1) + '</span><input type="number" inputmode="numeric" data-set="' + i + '" placeholder="' + ph + '" value="' + v + '"></label>';
-    }
-    h += '</div>';
-    if(b.weight){
-      const w = logged.weight != null ? logged.weight : '';
-      const pw = (prev && prev.weight != null) ? prev.weight : '–';
-      h += '<label class="inline"><span>Weight (kg)</span><input type="number" inputmode="decimal" data-weight placeholder="' + pw + '" value="' + w + '"></label>';
-    }
-  }
-
-  if(b.type === 'complex'){
-    const r = logged.rounds != null ? logged.rounds : '';
-    const pr = (prev && prev.rounds != null) ? prev.rounds : b.rounds;
-    const bell = logged.bell != null ? logged.bell : b.bell;
-    h += '<div class="pair">';
-    h += '<label class="inline"><span>Rounds / side</span><input type="number" inputmode="numeric" data-rounds placeholder="' + pr + '" value="' + r + '"></label>';
-    h += '<label class="inline"><span>Bell</span><select data-bell><option value="6"' + (bell==6?' selected':'') + '>6 kg</option><option value="10"' + (bell==10?' selected':'') + '>10 kg</option><option value="16"' + (bell==16?' selected':'') + '>mixed</option></select></label>';
-    h += '</div>';
-  }
-
-  if(b.type === 'interval'){
-    const st = stageFor(RUN_STAGES, wk);
-    h += '<p class="stage">Week ' + wk + ': ' + st.label + '</p>';
-    const m = logged.minutes != null ? logged.minutes : '';
-    const pm = (prev && prev.minutes != null) ? prev.minutes : '–';
-    h += '<label class="inline"><span>Minutes</span><input type="number" inputmode="numeric" data-minutes placeholder="' + pm + '" value="' + m + '"></label>';
-  }
-
-  if(b.type === 'contacts'){
-    const rp = logged.reps != null ? logged.reps : '';
-    const ct = logged.contacts != null ? logged.contacts : '';
-    const prp = (prev && prev.reps != null) ? prev.reps : '–';
-    const pct = (prev && prev.contacts != null) ? prev.contacts : '–';
-    h += '<div class="pair">';
-    h += '<label class="inline"><span>Reps</span><input type="number" inputmode="numeric" data-reps placeholder="' + prp + '" value="' + rp + '"></label>';
-    h += '<label class="inline"><span>Contacts / min</span><input type="number" inputmode="numeric" data-contacts placeholder="' + pct + '" value="' + ct + '"></label>';
-    h += '</div>';
-  }
-
-  h += '</section>';
-  return h;
-}
-
-function wireToday(date, dayKey){
-  const root = document.getElementById('view-today');
-
-  root.querySelectorAll('[data-shift]').forEach(el => el.onclick = () => {
-    const d = parseISO(viewDate); d.setDate(d.getDate() + (+el.dataset.shift));
-    viewDate = iso(d); renderToday();
-  });
-
-  root.querySelectorAll('[data-dia]').forEach(el => el.onclick = () => {
-    const slot = el.closest('.block').querySelector('.diaslot');
-    if(slot.firstChild){ slot.innerHTML = ''; el.classList.remove('on'); return; }
-    const fig = document.querySelector('#view-manual figure[data-ex="' + el.dataset.dia + '"]');
-    if(fig){ const c = fig.cloneNode(true); slot.appendChild(c); el.classList.add('on'); }
-  });
-
-  root.querySelectorAll('[data-goto]').forEach(el => el.onclick = () => {
-    const plan = PLAN[dayKey];
-    const letter = el.dataset.goto === 'warmup' ? plan.warmup[0] : plan.cooldown[0];
-    const label = el.dataset.goto === 'warmup' ? 'Warm-up ' + letter : 'Cool-down ' + letter;
-    show('manual');
-    const hs = [].slice.call(document.querySelectorAll('#view-manual h3'));
-    const t = hs.find(h => h.textContent.indexOf(label) === 0);
-    if(t){ openSection(t); t.scrollIntoView({block:'start'}); }
-  });
-
-  root.querySelectorAll('[data-tick]').forEach(el => el.onclick = () => {
-    const s = ensureSession(viewDate);
-    s.blocks[el.dataset.tick] = s.blocks[el.dataset.tick] || {};
-    s.blocks[el.dataset.tick].done = !s.blocks[el.dataset.tick].done;
-    saveSession(s); el.classList.toggle('on');
-  });
-
-  const db = document.getElementById('donebtn');
-  db.onclick = () => {
-    const s = ensureSession(viewDate);
-    s.done = !s.done; saveSession(s);
-    db.classList.toggle('is-done', s.done);
-    db.textContent = s.done ? 'Session complete \u2713' : 'Mark session complete';
-    if(s.done) toast('Logged');
-  };
-}
-
-/* Bound once, not per render: rebinding on every render stacked duplicate
-   listeners holding stale dates, which wrote empty sessions for past days. */
-function bindInputsOnce(){
-  const root = document.getElementById('view-today');
-  const handler = e => {
-    const t = e.target;
-    if(t.id === 'steps' || t.id === 'notes' || t.closest('.block')) commit(viewDate);
-  };
-  root.addEventListener('input', handler);
-  root.addEventListener('change', handler);
-}
-
-function commit(date){
-  const s = ensureSession(date);
-  s.day = dayKeyFor(date);
-  let touched = false;
-  document.querySelectorAll('#view-today .block').forEach(sec => {
-    const id = sec.dataset.block;
-    const cur = s.blocks[id] || {};
-    const sets = [].slice.call(sec.querySelectorAll('[data-set]'));
-    if(sets.length) cur.sets = sets.map(i => i.value === '' ? null : +i.value);
-    const num = (sel) => { const el = sec.querySelector(sel); return el ? (el.value === '' ? null : +el.value) : undefined; };
-    const w = num('[data-weight]');     if(w !== undefined) cur.weight = w;
-    const r = num('[data-rounds]');     if(r !== undefined) cur.rounds = r;
-    const m = num('[data-minutes]');    if(m !== undefined) cur.minutes = m;
-    const rp = num('[data-reps]');      if(rp !== undefined) cur.reps = rp;
-    const ct = num('[data-contacts]');  if(ct !== undefined) cur.contacts = ct;
-    const bl = sec.querySelector('[data-bell]'); if(bl) cur.bell = +bl.value;
-    if(hasData(cur)) touched = true;
-    s.blocks[id] = cur;
-  });
-  const st = document.getElementById('steps');
-  s.steps = st && st.value !== '' ? +st.value : null;
-  const nt = document.getElementById('notes');
-  s.notes = nt ? nt.value : '';
-  if(s.steps != null || s.notes || s.done) touched = true;
-  if(touched) saveSession(s);
-}
-
-function hasData(b){
-  if(!b) return false;
-  if(b.done) return true;
-  if(Array.isArray(b.sets) && b.sets.some(v => v != null)) return true;
-  return ['weight','rounds','minutes','reps','contacts'].some(k => b[k] != null);
-}
-
-/* ---------- Change day ---------- */
-document.addEventListener('click', e => {
-  if(e.target.id !== 'swapday') return;
-  const cur = dayKeyFor(viewDate);
-  const opts = DAY_KEYS.map(k => '<button class="dayopt' + (k===cur?' on':'') + '" data-day="' + k + '">' + cap(k) + ' — ' + PLAN[k].name + '</button>').join('');
-  openSheet('Run a different session today', opts);
-  document.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
-    const s = ensureSession(viewDate); s.day = b.dataset.day; saveSession(s);
-    closeSheet(); renderToday();
-  });
-});
-
-/* ---------- History ---------- */
-const METRICS = [
-  {key:'pullup',  label:'Pull-ups',           get:s => sum(pick(s,'pullup','sets'))},
-  {key:'pushup',  label:'Push-ups',           get:s => sum(pick(s,'pushup','sets'))},
-  {key:'kb1',     label:'Kettlebell rounds',  get:s => pick(s,'kb1','rounds')},
-  {key:'sprints', label:'Sprint reps',        get:s => pick(s,'sprints','reps')},
-  {key:'steps',   label:'Steps',              get:s => s.steps}
-];
-function pick(s,b,f){ return s.blocks && s.blocks[b] ? s.blocks[b][f] : null; }
-function sum(a){ if(!Array.isArray(a)) return null; const v = a.filter(x => typeof x === 'number'); return v.length ? v.reduce((x,y)=>x+y,0) : null; }
-
-function renderHistory(){
-  const list = allSessions();
-  let h = '';
-  if(!list.length){
-    h = '<p class="empty">Nothing logged yet. Log a session and it shows up here.</p>';
-    document.getElementById('view-history').innerHTML = h; return;
-  }
-
-  const weeks = {};
-  list.forEach(s => { const w = weekNumber(s.date); weeks[w] = (weeks[w]||0) + (s.done?1:0); });
-  const thisWk = weekNumber(today());
-  h += '<div class="panel"><b class="lbl">This week</b><p class="big">' + (weeks[thisWk]||0) + ' <span>of 5 sessions</span></p></div>';
-
-  METRICS.forEach(m => {
-    const pts = list.slice().reverse().map(s => ({d:s.date, v:m.get(s)})).filter(p => typeof p.v === 'number');
-    if(pts.length < 2) return;
-    const last = pts[pts.length-1], first = pts[0];
-    const delta = last.v - first.v;
-    h += '<div class="panel spark"><div class="sparkhead"><b>' + m.label + '</b>';
-    h += '<span class="' + (delta>0?'up':delta<0?'dn':'') + '">' + last.v + (delta ? ' (' + (delta>0?'+':'') + delta + ')' : '') + '</span></div>';
-    h += sparkline(pts.map(p => p.v)) + '</div>';
-  });
-
-  h += '<h3>Sessions</h3>';
-  list.forEach(s => {
-    const p = PLAN[s.day] || {name:s.day};
-    h += '<button class="histrow" data-open="' + s.date + '">';
-    h += '<span class="hd">' + s.date + '</span><span class="hn">' + p.name + '</span>';
-    h += '<span class="hs">' + (s.done ? '✓' : '·') + '</span></button>';
-    h += '<div class="histdetail" id="hd-' + s.date + '"></div>';
-  });
-
-  document.getElementById('view-history').innerHTML = h;
-  document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => {
-    const box = document.getElementById('hd-' + b.dataset.open);
-    if(box.innerHTML){ box.innerHTML=''; return; }
-    const s = getSession(b.dataset.open);
-    let t = '<dl>';
-    Object.keys(s.blocks||{}).forEach(k => {
-      const v = s.blocks[k]; const parts = [];
-      if(v.sets) parts.push(v.sets.filter(x=>x!=null).join(' · '));
-      if(v.weight != null) parts.push(v.weight + ' kg');
-      if(v.rounds != null) parts.push(v.rounds + ' rounds');
-      if(v.bell != null) parts.push(v.bell + ' kg');
-      if(v.minutes != null) parts.push(v.minutes + ' min');
-      if(v.reps != null) parts.push(v.reps + ' reps');
-      if(v.contacts != null) parts.push(v.contacts + ' contacts');
-      if(parts.length) t += '<dt>' + k + '</dt><dd>' + parts.join(' — ') + '</dd>';
-    });
-    if(s.steps) t += '<dt>steps</dt><dd>' + s.steps + '</dd>';
-    t += '</dl>';
-    if(s.notes) t += '<p class="hnote">' + esc(s.notes) + '</p>';
-    box.innerHTML = t;
-  });
-}
-
-function sparkline(vals){
-  const w = 280, hh = 44, pad = 3;
-  const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
-  const span = (max - min) || 1;
-  const step = vals.length > 1 ? (w - pad*2) / (vals.length - 1) : 0;
-  const pts = vals.map((v,i) => (pad + i*step).toFixed(1) + ',' + (hh - pad - ((v-min)/span)*(hh-pad*2)).toFixed(1));
-  let s = '<svg class="sl" viewBox="0 0 ' + w + ' ' + hh + '" preserveAspectRatio="none">';
-  s += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#e8c547" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
-  const lastPt = pts[pts.length-1].split(',');
-  s += '<circle cx="' + lastPt[0] + '" cy="' + lastPt[1] + '" r="3" fill="#e8c547"/>';
-  return s + '</svg>';
-}
-
-/* ---------- Data tab ---------- */
-function renderData(){
-  const st = settings();
-  const n = allSessions().length;
-  let bytes = 0; S.keys().forEach(k => bytes += (localStorage.getItem(P+k)||'').length);
-  let h = '';
-  h += '<div class="panel"><b class="lbl">Programme start date</b>';
-  h += '<p class="hint">Drives the week number, the run stage and the step ramp.</p>';
-  h += '<input id="startdate" type="date" value="' + st.startDate + '"></div>';
-
-  h += '<div class="panel"><b class="lbl">Backup</b>';
-  h += '<p class="hint">iOS can clear browser storage without warning. Export weekly — this file is your only copy.</p>';
-  h += '<button class="act" id="exp">Export ' + n + ' sessions</button>';
-  h += '<label class="act ghost" for="imp">Import from file</label><input id="imp" type="file" accept="application/json" hidden></div>';
-
-  h += '<div class="panel"><b class="lbl">Storage</b><p class="hint">' + (bytes/1024).toFixed(1) + ' KB used across ' + S.keys().length + ' keys.</p>';
-  h += '<button class="act danger" id="wipe">Erase all data</button></div>';
-
-  document.getElementById('view-data').innerHTML = h;
-
-  document.getElementById('startdate').onchange = e => { const s = settings(); s.startDate = e.target.value; saveSettings(s); toast('Start date saved'); };
-
-  document.getElementById('exp').onclick = () => {
-    const out = { app:'training-tracker', version:1, exported:new Date().toISOString(), data:{} };
-    S.keys().forEach(k => out.data[k] = S.get(k));
-    const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'training-backup-' + today() + '.json';
-    a.click(); URL.revokeObjectURL(a.href);
-  };
-
-  document.getElementById('imp').onchange = e => {
-    const f = e.target.files[0]; if(!f) return;
-    const r = new FileReader();
-    r.onload = () => {
-      let parsed;
-      try { parsed = JSON.parse(r.result); }
-      catch(err){ S.set('recovery:' + Date.now(), String(r.result).slice(0,50000)); toast('Could not parse — raw copy kept'); return; }
-      if(!parsed || parsed.app !== 'training-tracker' || typeof parsed.data !== 'object'){ toast('Not a backup from this app'); return; }
-      let added = 0, skipped = 0;
-      Object.keys(parsed.data).forEach(k => {
-        const v = parsed.data[k];
-        if(k.indexOf('session:') === 0){
-          if(!v || !v.date || typeof v.blocks !== 'object'){ skipped++; return; }
-        }
-        S.set(k, v); added++;
-      });
-      toast('Imported ' + added + (skipped ? ', ' + skipped + ' skipped' : ''));
-      renderData(); renderToday();
-    };
-    r.readAsText(f);
-  };
-
-  document.getElementById('wipe').onclick = () => {
-    openSheet('Erase everything?', '<p class="hint">This cannot be undone. Export first.</p><button class="act danger" id="wipe2">Yes, erase</button>');
-    document.getElementById('wipe2').onclick = () => {
-      S.keys().forEach(k => S.del(k)); closeSheet(); toast('Erased'); renderToday(); renderData(); renderHistory();
-    };
-  };
-}
-
-/* ---------- Rest timer ---------- */
-let timerEnd = 0, timerTick = null;
-function timerEl(){ return document.getElementById('timer'); }
-function isRunning(){ return timerTick !== null; }
-
-function startTimer(sec){
-  timerEnd = Date.now() + sec*1000;
-  const t = timerEl();
-  t.classList.add('running'); t.classList.remove('open');
-  unlockAudio();
-  if(timerTick) clearInterval(timerTick);
-  timerTick = setInterval(paintTimer, 250);
-  paintTimer();
-}
-function stopTimer(){
-  if(timerTick) clearInterval(timerTick);
-  timerTick = null;
-  timerEl().classList.remove('running');
-  syncTimerVisibility();
-}
-function paintTimer(){
-  const left = Math.max(0, Math.round((timerEnd - Date.now())/1000));
-  document.getElementById('tval').textContent = String(Math.floor(left/60)) + ':' + String(left%60).padStart(2,'0');
-  if(left <= 0){ stopTimer(); beep(); }
-}
-/* Only clutter the Today screen with it — unless it's counting down,
-   in which case keep it visible wherever you are. */
-function syncTimerVisibility(){
-  const onToday = !document.getElementById('view-today').hidden;
-  timerEl().hidden = !(onToday || isRunning());
-  if(timerEl().hidden) timerEl().classList.remove('open');
-}
-document.addEventListener('visibilitychange', () => { if(!document.hidden && timerTick) paintTimer(); });
-
-let actx = null;
-function unlockAudio(){
-  if(actx) return;
-  try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
-  if(actx && actx.state === 'suspended') actx.resume();
-}
-function beep(){
-  if(!actx) return;
-  try {
-    const o = actx.createOscillator(), g = actx.createGain();
-    o.connect(g); g.connect(actx.destination);
-    o.frequency.value = 880; g.gain.value = 0.15;
-    o.start(); o.stop(actx.currentTime + 0.25);
-  } catch(e){}
-  if(navigator.vibrate) navigator.vibrate([120,80,120]);
-}
-
-/* ---------- Chrome ---------- */
-function show(id){
-  ['today','manual','history','data'].forEach(v => {
-    document.getElementById('view-'+v).hidden = (v !== id);
-    const t = document.querySelector('[data-tab="'+v+'"]');
-    if(t) t.classList.toggle('on', v === id);
-  });
-  if(id === 'history') renderHistory();
-  if(id === 'data') renderData();
-  syncTimerVisibility();
-  window.scrollTo(0,0);
-}
-function initManual(){
-  const root = document.getElementById('view-manual');
-  const kids = [].slice.call(root.children);
-  let group = null;
-  kids.forEach(el => {
-    if(el.tagName === 'H2'){
-      group = document.createElement('div');
-      group.className = 'sect';
-      root.insertBefore(group, el);
-      const g = group;                       // capture per section
-      const btn = document.createElement('button');
-      btn.className = 'secthead';
-      btn.innerHTML = el.innerHTML + '<i></i>';
-      btn.onclick = () => g.classList.toggle('open');
-      const body = document.createElement('div');
-      body.className = 'sectbody';
-      g.appendChild(btn); g.appendChild(body);
-      g._body = body;
-      el.remove();
-      return;
-    }
-    if(group && el.tagName === 'HR' && el.className === 'rule'){ el.remove(); return; }
-    if(group) group._body.appendChild(el);
-  });
-}
-function pinRatios(){
-  document.querySelectorAll('#view-manual svg[viewBox]').forEach(s => {
-    const v = s.getAttribute('viewBox').split(/[\s,]+/);
-    if(v.length === 4 && +v[2] && +v[3]){
-      s.style.aspectRatio = v[2] + ' / ' + v[3];
-      s.style.height = 'auto';
-      s.style.width = '100%';
-    }
-  });
-}
-function openSection(h3){
-  const g = h3.closest('.sect');
-  if(g) g.classList.add('open');
-}
-function openSheet(title, html){
-  const s = document.getElementById('sheet');
-  s.innerHTML = '<div class="sheetbox"><h4>' + title + '</h4>' + html + '<button class="act ghost" id="sheetclose">Cancel</button></div>';
-  s.hidden = false;
-  document.getElementById('sheetclose').onclick = closeSheet;
-  s.onclick = e => { if(e.target === s) closeSheet(); };
-}
-function closeSheet(){ const s = document.getElementById('sheet'); s.hidden = true; s.innerHTML = ''; }
-
-let toastT = null;
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('on');
-  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 1800);
-}
-function esc(s){ return String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
-function cap(s){ return s[0].toUpperCase() + s.slice(1); }
-
-/* ---------- Boot ---------- */
-document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => show(b.dataset.tab));
-document.querySelectorAll('[data-rest]').forEach(b => b.onclick = () => startTimer(+b.dataset.rest));
-document.getElementById('tstop').onclick = stopTimer;
-document.getElementById('topen').onclick = () => timerEl().classList.toggle('open');
-document.addEventListener('click', e => {
-  if(!timerEl().classList.contains('open')) return;
-  if(!e.target.closest('#timer')) timerEl().classList.remove('open');
-});
-initManual();
-renderLearn();
-pinRatios();
-watchOnline();
-bindInputsOnce();
-settings();
-renderToday();
-show('today');
-
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-
-</script>
 </body>
 </html>
