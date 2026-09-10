@@ -504,6 +504,38 @@ body.offline .yt.icon::after{ content:none; }
 main.wrap{ min-height:calc(100vh - 200px); min-height:calc(100dvh - 200px); }
 .tabs{ box-shadow:0 40px 0 var(--card); }
 .empty{ padding:56px 20px; }
+
+/* Grid cards stretch to equal height, but their contents didn't, so the
+   Watch button floated mid-card and misaligned across a row. Push it to
+   the bottom of every card instead. */
+.d figcaption{ display:flex; flex-direction:column; flex:1 1 auto; }
+.d figcaption .yt.mini{ margin-top:auto; align-self:flex-start; }
+.d .vol{ margin-bottom:10px; }
+.diaslot .d figcaption .yt.mini{ margin-top:10px; }
+
+/* ---------- readiness ---------- */
+.ready{ margin-top:2px; }
+.readyrow{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.readybtn{
+  appearance:none; cursor:pointer; font:inherit; font-size:14px; font-weight:600;
+  padding:13px 8px; border-radius:var(--r-md);
+  background:var(--card-2); border:1px solid var(--line); color:var(--ink-2);
+  transition:transform .12s, background .15s, border-color .15s, color .15s;
+}
+.readybtn:active{ transform:scale(.96); }
+.readybtn.on{ background:var(--acc-soft); border-color:var(--acc); color:var(--acc-ink); }
+
+/* ---------- export nudge ---------- */
+.nudge{
+  background:var(--acc-soft); border:1px solid var(--acc);
+  border-radius:var(--r-lg); padding:15px; margin-top:14px;
+}
+.nudge p{ margin:0 0 12px; font-size:14.5px; color:var(--ink); }
+.nudgeacts{ display:flex; gap:8px; }
+.nudgeacts .act{ margin:0; flex:1; padding:11px; font-size:14px; }
+
+/* ---------- session duration ---------- */
+.dur{ text-align:center; color:var(--muted); font-size:13.5px; margin:-58px 0 70px; }
 </style>
 </head>
 <body>
@@ -1807,6 +1839,30 @@ function stageFor(list, wk){
   return list[list.length-1];
 }
 
+function daysAgo(dateStr){
+  return Math.floor((parseISO(today()) - parseISO(dateStr)) / 86400000);
+}
+
+/* Steps arrive from an iOS Shortcut as ?steps=8400. A web app can't read
+   HealthKit, but a Shortcut can and it can hand the number over in a URL. */
+function ingestQueryParams(){
+  const p = new URLSearchParams(location.search);
+  const clean = () => history.replaceState(null, '', location.pathname);
+  const raw = p.get('steps');
+  if(raw === null) return;
+
+  const n = parseInt(raw, 10);
+  if(!Number.isFinite(n) || n < 0 || n > 100000){ clean(); return; }
+
+  const qd = p.get('date') || '';
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(qd) ? qd : today();
+  const s = ensureSession(date);
+  s.steps = n;
+  saveSession(s);
+  clean();                       // or a refresh re-applies a stale number
+  setTimeout(() => toast('Steps synced: ' + n.toLocaleString()), 300);
+}
+
 function getSession(date){ return S.get('session:'+date); }
 function saveSession(sess){ S.set('session:'+sess.date, sess); }
 function allSessions(){
@@ -1831,7 +1887,7 @@ function dayKeyFor(date){
 
 function ensureSession(date){
   let s = getSession(date);
-  if(!s) s = { date: date, day: DAY_KEYS[parseISO(date).getDay()], blocks:{}, notes:'', steps:null, done:false };
+  if(!s) s = { date: date, day: DAY_KEYS[parseISO(date).getDay()], blocks:{}, notes:'', steps:null, done:false, readiness:null, startedAt:null, durationMin:null };
   return s;
 }
 
@@ -2007,6 +2063,7 @@ function renderToday(){
   const pretty = d.toLocaleDateString(undefined, {weekday:'long', day:'numeric', month:'long'});
 
   let h = '';
+  h += exportNudge();
   h += '<div class="daybar">';
   h += '<button class="nav" data-shift="-1" aria-label="Previous day">‹</button>';
   h += '<div class="dayinfo"><b>' + pretty + '</b><span>Week ' + wk + ' · step target ' + stepTarget.toLocaleString() + '</span></div>';
@@ -2019,6 +2076,12 @@ function renderToday(){
   if(plan.warmup !== '—') h += '<button class="chip" data-goto="warmup">Warm-up ' + plan.warmup + '</button>';
   if(plan.cooldown !== '—') h += '<button class="chip" data-goto="cooldown">Cool-down ' + plan.cooldown + '</button>';
   h += '<button class="chip alt" id="swapday">Change day</button>';
+  h += '</div></div>';
+
+  h += '<div class="panel ready"><b class="lbl">How do you feel today?</b><div class="readyrow">';
+  [['fresh','Fresh'],['normal','Normal'],['beat','Beaten up']].forEach(o => {
+    h += '<button class="readybtn' + (sess.readiness === o[0] ? ' on' : '') + '" data-ready="' + o[0] + '">' + o[1] + '</button>';
+  });
   h += '</div></div>';
 
   h += '<div id="blocks">';
@@ -2038,9 +2101,27 @@ function renderToday(){
   h += '<textarea id="notes" rows="2" placeholder="How it felt, anything that hurt…">' + esc(sess.notes || '') + '</textarea></div>';
 
   h += '<button id="donebtn" class="done' + (sess.done ? ' is-done' : '') + '">' + (sess.done ? 'Session complete ✓' : 'Mark session complete') + '</button>';
+  if(sess.durationMin) h += '<p class="dur">Session took ' + sess.durationMin + ' min</p>';
 
   document.getElementById('view-today').innerHTML = h;
   wireToday(date, dayKey);
+}
+
+/* The only real data-loss path left: iOS can clear storage without warning
+   and the export is manual. Persistent, dismissible for a day at a time. */
+function exportNudge(){
+  const st = settings();
+  const n = allSessions().length;
+  if(st.nudgeDismissedAt && Date.now() - st.nudgeDismissedAt < 86400000) return '';
+  const last = st.lastExport ? Math.floor((Date.now() - st.lastExport) / 86400000) : null;
+  // Never exported: wait until there is something worth losing, rather than
+  // nagging on the first session.
+  if(last === null && n < 3) return '';
+  if(last !== null && last < 7) return '';
+  const when = last === null ? 'never backed up' : 'last backup ' + last + ' days ago';
+  return '<div class="nudge"><p>' + cap(when) + '. iOS can clear this data without warning.</p>' +
+         '<div class="nudgeacts"><button class="act" id="nudgeexp">Export now</button>' +
+         '<button class="act ghost" id="nudgeoff">Later</button></div></div>';
 }
 
 function renderBlock(b, sess, dayKey, date, wk){
@@ -2136,13 +2217,32 @@ function wireToday(date, dayKey){
     const s = ensureSession(viewDate);
     s.blocks[el.dataset.tick] = s.blocks[el.dataset.tick] || {};
     s.blocks[el.dataset.tick].done = !s.blocks[el.dataset.tick].done;
+    if(!s.startedAt && !s.done) s.startedAt = Date.now();
     saveSession(s); el.classList.toggle('on');
   });
+
+  root.querySelectorAll('[data-ready]').forEach(el => el.onclick = () => {
+    const s = ensureSession(viewDate);
+    s.readiness = (s.readiness === el.dataset.ready) ? null : el.dataset.ready;
+    saveSession(s);
+    root.querySelectorAll('[data-ready]').forEach(b => b.classList.toggle('on', b.dataset.ready === s.readiness));
+  });
+
+  const ne = document.getElementById('nudgeexp');
+  if(ne) ne.onclick = () => { doExport(); renderToday(); };
+  const no = document.getElementById('nudgeoff');
+  if(no) no.onclick = () => { const st = settings(); st.nudgeDismissedAt = Date.now(); saveSettings(st); renderToday(); };
 
   const db = document.getElementById('donebtn');
   db.onclick = () => {
     const s = ensureSession(viewDate);
-    s.done = !s.done; saveSession(s);
+    s.done = !s.done;
+    if(s.done && s.startedAt){
+      const mins = Math.round((Date.now() - s.startedAt) / 60000);
+      // Over three hours means the app was left open, not a long session.
+      s.durationMin = (mins > 0 && mins <= 180) ? mins : null;
+    }
+    saveSession(s);
     db.classList.toggle('is-done', s.done);
     db.textContent = s.done ? 'Session complete \u2713' : 'Mark session complete';
     if(s.done) toast('Logged');
@@ -2165,6 +2265,7 @@ function commit(date){
   const s = ensureSession(date);
   s.day = dayKeyFor(date);
   let touched = false;
+  if(!s.startedAt && !s.done) s.startedAt = Date.now();
   document.querySelectorAll('#view-today .block').forEach(sec => {
     const id = sec.dataset.block;
     const cur = s.blocks[id] || {};
@@ -2213,7 +2314,8 @@ const METRICS = [
   {key:'pushup',  label:'Push-ups',           get:s => sum(pick(s,'pushup','sets'))},
   {key:'kb1',     label:'Kettlebell rounds',  get:s => pick(s,'kb1','rounds')},
   {key:'sprints', label:'Sprint reps',        get:s => pick(s,'sprints','reps')},
-  {key:'steps',   label:'Steps',              get:s => s.steps}
+  {key:'steps',   label:'Steps',              get:s => s.steps},
+  {key:'dur',     label:'Session length (min)', get:s => s.durationMin}
 ];
 function pick(s,b,f){ return s.blocks && s.blocks[b] ? s.blocks[b][f] : null; }
 function sum(a){ if(!Array.isArray(a)) return null; const v = a.filter(x => typeof x === 'number'); return v.length ? v.reduce((x,y)=>x+y,0) : null; }
@@ -2268,6 +2370,8 @@ function renderHistory(){
       if(parts.length) t += '<dt>' + k + '</dt><dd>' + parts.join(' — ') + '</dd>';
     });
     if(s.steps) t += '<dt>steps</dt><dd>' + s.steps + '</dd>';
+    if(s.durationMin) t += '<dt>duration</dt><dd>' + s.durationMin + ' min</dd>';
+    if(s.readiness) t += '<dt>felt</dt><dd>' + ({fresh:'Fresh', normal:'Normal', beat:'Beaten up'}[s.readiness]) + '</dd>';
     t += '</dl>';
     if(s.notes) t += '<p class="hnote">' + esc(s.notes) + '</p>';
     box.innerHTML = t;
@@ -2288,6 +2392,21 @@ function sparkline(vals){
 }
 
 /* ---------- Data tab ---------- */
+function doExport(){
+  const out = { app:'training-tracker', version:1, exported:new Date().toISOString(), data:{} };
+  S.keys().forEach(k => out.data[k] = S.get(k));
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'training-backup-' + today() + '.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  const st = settings();
+  st.lastExport = Date.now();
+  st.nudgeDismissedAt = null;
+  saveSettings(st);
+  toast('Backup downloaded');
+}
+
 function renderData(){
   const st = settings();
   const n = allSessions().length;
@@ -2309,15 +2428,7 @@ function renderData(){
 
   document.getElementById('startdate').onchange = e => { const s = settings(); s.startDate = e.target.value; saveSettings(s); toast('Start date saved'); };
 
-  document.getElementById('exp').onclick = () => {
-    const out = { app:'training-tracker', version:1, exported:new Date().toISOString(), data:{} };
-    S.keys().forEach(k => out.data[k] = S.get(k));
-    const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'training-backup-' + today() + '.json';
-    a.click(); URL.revokeObjectURL(a.href);
-  };
+  document.getElementById('exp').onclick = () => { doExport(); renderData(); };
 
   document.getElementById('imp').onchange = e => {
     const f = e.target.files[0]; if(!f) return;
@@ -2478,6 +2589,7 @@ document.addEventListener('click', e => {
   if(!timerEl().classList.contains('open')) return;
   if(!e.target.closest('#timer')) timerEl().classList.remove('open');
 });
+ingestQueryParams();
 initManual();
 renderLearn();
 pinRatios();

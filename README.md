@@ -25,7 +25,7 @@ No build step, no dependencies. Create `.nojekyll` in GitHub with **Add file →
 
 **Bump `const C` in `sw.js` on every change to `index.html`.**
 
-Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v8`.
+Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v10`.
 
 After a design or icon change, delete the home screen icon and re-add it — the version bump refreshes the page but not always the icon.
 
@@ -36,6 +36,23 @@ Service workers need http, not `file://`:
 ```
 python3 -m http.server 8000
 ```
+
+## Steps from Apple Health
+
+A web app cannot read HealthKit, but a Shortcut can hand the number over in a URL. The app reads `?steps=8400` on load, saves it to today, and strips the parameter so a refresh cannot re-apply a stale number. Values outside 0–100,000 are rejected. An optional `&date=YYYY-MM-DD` backfills a past day.
+
+**Shortcut:**
+
+| Step | Action | Settings |
+|---|---|---|
+| 1 | Find Health Samples | Type: Steps · Filter: Start Date is Today |
+| 2 | Calculate Statistics | Operation: Sum |
+| 3 | Text | `https://<you>.github.io/training/?steps=` + result of step 2 |
+| 4 | Open URLs | Input: the Text |
+
+Then Shortcuts → Automation → Time of Day → 9:30pm → Daily → Run Immediately.
+
+It will briefly foreground the app; iOS has no way to hand data to a web app in the background.
 
 ## Data
 
@@ -51,6 +68,9 @@ Import validates the payload and skips malformed session records. Unparseable fi
 - **Manual** — 67 diagrams in collapsible sections, each with a Watch link, plus a curated "Learn these first" list of 12.
 - **History** — sparklines for pull-ups, push-ups, kettlebell rounds, sprint reps and steps.
 - **Data** — start date, export, import, storage usage, erase.
+- **Readiness** — one tap each day: fresh, normal, beaten up. Feeds the back-off signal planned for phase 2.
+- **Session duration** — clock starts on the first logged block, stops when you mark the session complete. Over three hours is discarded as "left the app open".
+- **Export nudge** — appears after seven days without a backup, or after three sessions if you have never exported. Dismissible for 24 hours at a time.
 - **Rest timer** — 10s to 3m. Timestamp-based, so locking the phone doesn't break it. Shows on Today, and follows you across tabs while running.
 - **Dark mode** — follows the system setting.
 
