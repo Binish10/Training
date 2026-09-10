@@ -602,6 +602,16 @@ button.dayinfo:active{ background:var(--card-2); }
 .hd{ width:52px; }
 
 .topbar .ver{ margin-left:auto; font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
+
+/* iOS gives date inputs an intrinsic width from the locale-formatted value
+   and centres it, so the value spilled out of the field. Pin it left and
+   let the field size to its container. */
+input[type=date]{
+  -webkit-appearance:none; appearance:none;
+  min-width:0; max-width:100%; text-align:left;
+}
+input[type=date]::-webkit-date-and-time-value{ text-align:left; margin:0; }
+input[type=date]::-webkit-calendar-picker-indicator{ margin-left:auto; }
 </style>
 </head>
 <body>
@@ -1796,7 +1806,7 @@ button.dayinfo:active{ background:var(--card-2); }
 <div id="toast"></div>
 
 <script>
-const APP_VERSION = 'v13';
+const APP_VERSION = 'v14';
 
 /* ---------- The plan as data ---------- */
 const DAY_KEYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
@@ -2167,7 +2177,7 @@ function renderToday(){
   h += '</div>';
 
   h += '<div class="panel"><label class="lbl" for="steps">Steps today</label>';
-  h += '<div class="steprow"><input id="steps" type="number" inputmode="numeric" placeholder="—" value="' + (sess.steps != null ? sess.steps : '') + '">';
+  h += '<div class="steprow"><input id="steps" type="number" inputmode="numeric" min="0" max="100000" placeholder="—" value="' + (sess.steps != null ? sess.steps : '') + '">';
   h += '<span class="target">of ' + stepTarget.toLocaleString() + '</span></div>';
   h += '<div class="bar"><i style="width:' + Math.min(100, Math.round((sess.steps||0)/stepTarget*100)) + '%"></i></div></div>';
 
@@ -2236,13 +2246,13 @@ function renderBlock(b, sess, dayKey, date, wk){
     for(let i=0;i<b.sets;i++){
       const v = (logged.sets && logged.sets[i] != null) ? logged.sets[i] : '';
       const ph = (prev && prev.sets && prev.sets[i] != null) ? prev.sets[i] : '–';
-      h += '<label class="set"><span>' + (i+1) + '</span><input type="number" inputmode="numeric" data-set="' + i + '" placeholder="' + ph + '" value="' + v + '"></label>';
+      h += '<label class="set"><span>' + (i+1) + '</span><input type="number" inputmode="numeric" min="0" max="999" data-set="' + i + '" placeholder="' + ph + '" value="' + v + '"></label>';
     }
     h += '</div>';
     if(b.weight){
       const w = logged.weight != null ? logged.weight : '';
       const pw = (prev && prev.weight != null) ? prev.weight : '–';
-      h += '<label class="inline"><span>Weight (kg)</span><input type="number" inputmode="decimal" data-weight placeholder="' + pw + '" value="' + w + '"></label>';
+      h += '<label class="inline"><span>Weight (kg)</span><input type="number" inputmode="decimal" min="0" max="500" step="0.5" data-weight placeholder="' + pw + '" value="' + w + '"></label>';
     }
   }
 
@@ -2251,7 +2261,7 @@ function renderBlock(b, sess, dayKey, date, wk){
     const pr = (prev && prev.rounds != null) ? prev.rounds : b.rounds;
     const bell = logged.bell != null ? logged.bell : b.bell;
     h += '<div class="pair">';
-    h += '<label class="inline"><span>Rounds / side</span><input type="number" inputmode="numeric" data-rounds placeholder="' + pr + '" value="' + r + '"></label>';
+    h += '<label class="inline"><span>Rounds / side</span><input type="number" inputmode="numeric" min="0" max="99" data-rounds placeholder="' + pr + '" value="' + r + '"></label>';
     h += '<label class="inline"><span>Bell</span><select data-bell><option value="6"' + (bell==6?' selected':'') + '>6 kg</option><option value="10"' + (bell==10?' selected':'') + '>10 kg</option><option value="16"' + (bell==16?' selected':'') + '>mixed</option></select></label>';
     h += '</div>';
   }
@@ -2261,7 +2271,7 @@ function renderBlock(b, sess, dayKey, date, wk){
     h += '<p class="stage">Week ' + wk + ': ' + st.label + '</p>';
     const m = logged.minutes != null ? logged.minutes : '';
     const pm = (prev && prev.minutes != null) ? prev.minutes : '–';
-    h += '<label class="inline"><span>Minutes</span><input type="number" inputmode="numeric" data-minutes placeholder="' + pm + '" value="' + m + '"></label>';
+    h += '<label class="inline"><span>Minutes</span><input type="number" inputmode="numeric" min="0" max="600" data-minutes placeholder="' + pm + '" value="' + m + '"></label>';
   }
 
   if(b.type === 'check'){
@@ -2275,8 +2285,8 @@ function renderBlock(b, sess, dayKey, date, wk){
     const prp = (prev && prev.reps != null) ? prev.reps : '–';
     const pct = (prev && prev.contacts != null) ? prev.contacts : '–';
     h += '<div class="pair">';
-    h += '<label class="inline"><span>Reps</span><input type="number" inputmode="numeric" data-reps placeholder="' + prp + '" value="' + rp + '"></label>';
-    h += '<label class="inline"><span>Contacts / min</span><input type="number" inputmode="numeric" data-contacts placeholder="' + pct + '" value="' + ct + '"></label>';
+    h += '<label class="inline"><span>Reps</span><input type="number" inputmode="numeric" min="0" max="999" data-reps placeholder="' + prp + '" value="' + rp + '"></label>';
+    h += '<label class="inline"><span>Contacts / min</span><input type="number" inputmode="numeric" min="0" max="999" data-contacts placeholder="' + pct + '" value="' + ct + '"></label>';
     h += '</div>';
   }
 
@@ -2372,6 +2382,7 @@ function bindInputsOnce(){
     // the start of a session.
     if(inBlock) startClock();
     commit(viewDate);
+    if(t.id === 'steps') paintStepBar();
   };
   root.addEventListener('input', handler);
   root.addEventListener('change', handler);
@@ -2382,6 +2393,15 @@ function startClock(){
   if(!s.startedAt && !s.done){ s.startedAt = Date.now(); saveSession(s); }
 }
 
+function paintStepBar(){
+  const el = document.getElementById('steps');
+  const bar = document.querySelector('.bar i');
+  if(!el || !bar) return;
+  const target = stageFor(STEP_STAGES, weekNumber(viewDate)).target;
+  const v = el.value === '' ? 0 : Math.min(100000, Math.max(0, +el.value));
+  bar.style.width = Math.min(100, Math.round(v / target * 100)) + '%';
+}
+
 function commit(date){
   const s = ensureSession(date);
   s.day = dayKeyFor(date);
@@ -2390,19 +2410,25 @@ function commit(date){
     const id = sec.dataset.block;
     const cur = s.blocks[id] || {};
     const sets = [].slice.call(sec.querySelectorAll('[data-set]'));
-    if(sets.length) cur.sets = sets.map(i => i.value === '' ? null : +i.value);
-    const num = (sel) => { const el = sec.querySelector(sel); return el ? (el.value === '' ? null : +el.value) : undefined; };
-    const w = num('[data-weight]');     if(w !== undefined) cur.weight = w;
-    const r = num('[data-rounds]');     if(r !== undefined) cur.rounds = r;
-    const m = num('[data-minutes]');    if(m !== undefined) cur.minutes = m;
-    const rp = num('[data-reps]');      if(rp !== undefined) cur.reps = rp;
-    const ct = num('[data-contacts]');  if(ct !== undefined) cur.contacts = ct;
+    if(sets.length) cur.sets = sets.map(i => i.value === '' ? null : Math.min(999, Math.max(0, +i.value)));
+    /* Attributes only hint; a pasted or spun value still needs clamping. */
+    const clamp = (v, lo, hi) => v == null ? null : Math.min(hi, Math.max(lo, v));
+    const num = (sel, lo, hi) => {
+      const el = sec.querySelector(sel);
+      if(!el) return undefined;
+      return el.value === '' ? null : clamp(+el.value, lo === undefined ? 0 : lo, hi === undefined ? 999 : hi);
+    };
+    const w = num('[data-weight]', 0, 500);   if(w !== undefined) cur.weight = w;
+    const r = num('[data-rounds]', 0, 99);    if(r !== undefined) cur.rounds = r;
+    const m = num('[data-minutes]', 0, 600);  if(m !== undefined) cur.minutes = m;
+    const rp = num('[data-reps]', 0, 999);    if(rp !== undefined) cur.reps = rp;
+    const ct = num('[data-contacts]', 0, 999); if(ct !== undefined) cur.contacts = ct;
     const bl = sec.querySelector('[data-bell]'); if(bl) cur.bell = +bl.value;
     if(hasData(cur)) touched = true;
     s.blocks[id] = cur;
   });
   const st = document.getElementById('steps');
-  s.steps = st && st.value !== '' ? +st.value : null;
+  s.steps = st && st.value !== '' ? Math.min(100000, Math.max(0, +st.value)) : null;
   const nt = document.getElementById('notes');
   s.notes = nt ? nt.value : '';
   if(s.steps != null || s.notes || s.done) touched = true;
@@ -2445,7 +2471,8 @@ function drawCalendar(){
     if(ds === viewDate) cls.push('is-viewing');
     if(s && s.done) cls.push('is-done');
     else if(s && (Object.keys(s.blocks||{}).length || s.steps != null)) cls.push('is-part');
-    h += '<button class="' + cls.join(' ') + '" data-jump="' + ds + '">' + n + '</button>';
+    const label = new Date(y, m, n).toLocaleDateString(undefined, {weekday:'long', day:'numeric', month:'long'});
+    h += '<button class="' + cls.join(' ') + '" data-jump="' + ds + '" aria-label="' + label + (s && s.done ? ', completed' : '') + '">' + n + '</button>';
   }
   h += '</div>';
   h += '<div class="callegend"><span><i class="k-done"></i>completed</span><span><i class="k-part"></i>partly logged</span></div>';
@@ -2601,7 +2628,7 @@ function renderData(){
 
   h += '<div class="panel"><b class="lbl">Backup</b>';
   h += '<p class="hint">iOS can clear browser storage without warning. Export weekly — this file is your only copy.</p>';
-  h += '<button class="act" id="exp">Export ' + n + ' sessions</button>';
+  h += '<button class="act" id="exp">Export ' + n + (n === 1 ? ' day' : ' days') + ' of data</button>';
   h += '<label class="act ghost" for="imp">Import from file</label><input id="imp" type="file" accept="application/json" hidden></div>';
 
   h += '<div class="panel"><b class="lbl">Version</b><p class="hint">Running <b>' + APP_VERSION + '</b>. If this does not match the build you just deployed, your phone is serving a cached copy \u2014 delete the home screen icon and re-add it from Safari.</p></div>';
