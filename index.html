@@ -600,6 +600,8 @@ button.dayinfo:active{ background:var(--card-2); }
 .histrow.is-light{ background:transparent; box-shadow:none; }
 .histrow.is-light .hn{ color:var(--muted); font-weight:400; }
 .hd{ width:52px; }
+
+.topbar .ver{ margin-left:auto; font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
 </style>
 </head>
 <body>
@@ -610,7 +612,7 @@ button.dayinfo:active{ background:var(--card-2); }
   </marker>
 </defs></svg>
 
-<header class="topbar"><b>Training</b><span>6 am walk · 6 pm session</span></header>
+<header class="topbar"><b>Training</b><span>6 am walk · 6 pm session</span><span class="ver" id="ver"></span></header>
 
 <main class="wrap">
   <div id="view-today"></div>
@@ -1794,6 +1796,8 @@ button.dayinfo:active{ background:var(--card-2); }
 <div id="toast"></div>
 
 <script>
+const APP_VERSION = 'v13';
+
 /* ---------- The plan as data ---------- */
 const DAY_KEYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
 
@@ -2600,6 +2604,8 @@ function renderData(){
   h += '<button class="act" id="exp">Export ' + n + ' sessions</button>';
   h += '<label class="act ghost" for="imp">Import from file</label><input id="imp" type="file" accept="application/json" hidden></div>';
 
+  h += '<div class="panel"><b class="lbl">Version</b><p class="hint">Running <b>' + APP_VERSION + '</b>. If this does not match the build you just deployed, your phone is serving a cached copy \u2014 delete the home screen icon and re-add it from Safari.</p></div>';
+
   h += '<div class="panel"><b class="lbl">Storage</b><p class="hint">' + (bytes/1024).toFixed(1) + ' KB used across ' + S.keys().length + ' keys.</p>';
   h += '<button class="act danger" id="wipe">Erase all data</button></div>';
 
@@ -2768,6 +2774,8 @@ document.addEventListener('click', e => {
   if(!timerEl().classList.contains('open')) return;
   if(!e.target.closest('#timer')) timerEl().classList.remove('open');
 });
+const verEl = document.getElementById('ver');
+if(verEl) verEl.textContent = APP_VERSION;
 ingestQueryParams();
 initManual();
 renderLearn();
