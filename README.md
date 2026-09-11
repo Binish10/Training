@@ -25,7 +25,7 @@ No build step, no dependencies. Create `.nojekyll` in GitHub with **Add file →
 
 **Bump `const C` in `sw.js` on every change to `index.html`.**
 
-Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v10`.
+Without it an installed copy keeps serving the cached old shell and your change never appears. Currently at `training-v16`.
 
 After a design or icon change, delete the home screen icon and re-add it — the version bump refreshes the page but not always the icon.
 
@@ -39,20 +39,29 @@ python3 -m http.server 8000
 
 ## Steps from Apple Health
 
-A web app cannot read HealthKit, but a Shortcut can hand the number over in a URL. The app reads `?steps=8400` on load, saves it to today, and strips the parameter so a refresh cannot re-apply a stale number. Values outside 0–100,000 are rejected. An optional `&date=YYYY-MM-DD` backfills a past day.
+**Important:** a home-screen web app on iOS has its own storage, separate from Safari. A Shortcut that opens a URL opens it *in Safari*, so anything it writes lands in Safari's copy and never appears in the installed app. The `?steps=` route below only works if you use the app in Safari rather than from the home screen.
 
-**Shortcut:**
+For the home-screen app, use the clipboard instead.
+
+### Clipboard route — works with the installed app
+
+Shortcut:
 
 | Step | Action | Settings |
 |---|---|---|
 | 1 | Find Health Samples | Type: Steps · Filter: Start Date is Today |
 | 2 | Calculate Statistics | Operation: Sum |
-| 3 | Text | `https://<you>.github.io/training/?steps=` + result of step 2 |
-| 4 | Open URLs | Input: the Text |
+| 3 | Copy to Clipboard | Input: result of step 2 |
 
-Then Shortcuts → Automation → Time of Day → 9:30pm → Daily → Run Immediately.
+Add it to the home screen or run it from the share sheet, then open the app and tap **Paste** next to the steps field. Two taps, no typing.
 
-It will briefly foreground the app; iOS has no way to hand data to a web app in the background.
+You can automate step 1–3 at a set time (Shortcuts → Automation → Time of Day), but you still tap Paste in the app — iOS gives no way to write into a web app's storage in the background.
+
+### URL route — Safari only
+
+The app reads `?steps=8400` on load, saves it to today, and strips the parameter so a refresh cannot re-apply a stale number. Values outside 0–100,000 are rejected. `&date=YYYY-MM-DD` backfills a past day. Useful for testing and for manual backfill; not useful from the home screen.
+
+To verify the app side works, open `https://<you>.github.io/training/?steps=1234` in Safari and check the steps field.
 
 ## Data
 
@@ -69,7 +78,7 @@ Import validates the payload and skips malformed session records. Unparseable fi
 - **History** — sparklines for pull-ups, push-ups, kettlebell rounds, sprint reps and steps.
 - **Data** — start date, export, import, storage usage, erase.
 - **Readiness** — one tap each day: fresh, normal, beaten up. Feeds the back-off signal planned for phase 2.
-- **Session duration** — clock starts on the first logged block, stops when you mark the session complete. Over three hours is discarded as "left the app open".
+- **Session duration** — measured from your first entry to your last entry, not up to the moment you tap complete. Marking a session done an hour later therefore doesn't inflate it. Under a minute or over three hours records nothing.
 - **Export nudge** — appears after seven days without a backup, or after three sessions if you have never exported. Dismissible for 24 hours at a time.
 - **Rest timer** — 10s to 3m. Timestamp-based, so locking the phone doesn't break it. Shows on Today, and follows you across tabs while running.
 - **Dark mode** — follows the system setting.

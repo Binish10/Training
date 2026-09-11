@@ -612,6 +612,14 @@ input[type=date]{
 }
 input[type=date]::-webkit-date-and-time-value{ text-align:left; margin:0; }
 input[type=date]::-webkit-calendar-picker-indicator{ margin-left:auto; }
+
+.paste{
+  appearance:none; cursor:pointer; font:inherit; font-size:13px; font-weight:600;
+  padding:10px 14px; border-radius:var(--r-sm); flex:none;
+  background:var(--acc-soft); color:var(--acc-ink); border:1px solid transparent;
+  transition:transform .12s;
+}
+.paste:active{ transform:scale(.95); }
 </style>
 </head>
 <body>
@@ -1806,7 +1814,7 @@ input[type=date]::-webkit-calendar-picker-indicator{ margin-left:auto; }
 <div id="toast"></div>
 
 <script>
-const APP_VERSION = 'v14';
+const APP_VERSION = 'v16';
 
 /* ---------- The plan as data ---------- */
 const DAY_KEYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
@@ -2178,6 +2186,7 @@ function renderToday(){
 
   h += '<div class="panel"><label class="lbl" for="steps">Steps today</label>';
   h += '<div class="steprow"><input id="steps" type="number" inputmode="numeric" min="0" max="100000" placeholder="—" value="' + (sess.steps != null ? sess.steps : '') + '">';
+  h += '<button class="paste" id="pastesteps" aria-label="Paste steps from clipboard">Paste</button>';
   h += '<span class="target">of ' + stepTarget.toLocaleString() + '</span></div>';
   h += '<div class="bar"><i style="width:' + Math.min(100, Math.round((sess.steps||0)/stepTarget*100)) + '%"></i></div></div>';
 
@@ -2338,7 +2347,10 @@ function wireToday(date, dayKey){
     const s = ensureSession(viewDate);
     s.blocks[el.dataset.tick] = s.blocks[el.dataset.tick] || {};
     s.blocks[el.dataset.tick].done = !s.blocks[el.dataset.tick].done;
-    if(!s.startedAt && !s.done) s.startedAt = Date.now();
+    if(!s.done){
+      if(!s.startedAt) s.startedAt = Date.now();
+      s.lastLogAt = Date.now();
+    }
     saveSession(s); el.classList.toggle('on');
   });
 
@@ -2349,6 +2361,20 @@ function wireToday(date, dayKey){
     root.querySelectorAll('[data-ready]').forEach(b => b.classList.toggle('on', b.dataset.ready === s.readiness));
   });
 
+  const ps = document.getElementById('pastesteps');
+  if(ps) ps.onclick = async () => {
+    try {
+      const txt = await navigator.clipboard.readText();
+      const m = String(txt).replace(/[,\s]/g, '').match(/\d+/);
+      if(!m){ toast('No number on the clipboard'); return; }
+      const n = Math.min(100000, Math.max(0, parseInt(m[0], 10)));
+      const s = ensureSession(viewDate); s.steps = n; saveSession(s);
+      renderToday(); toast('Steps set to ' + n.toLocaleString());
+    } catch(e){
+      toast('Clipboard blocked \u2014 long-press the field and paste');
+    }
+  };
+
   const ne = document.getElementById('nudgeexp');
   if(ne) ne.onclick = () => { doExport(); renderToday(); };
   const no = document.getElementById('nudgeoff');
@@ -2358,10 +2384,12 @@ function wireToday(date, dayKey){
   db.onclick = () => {
     const s = ensureSession(viewDate);
     s.done = !s.done;
-    if(s.done && s.startedAt){
-      const mins = Math.round((Date.now() - s.startedAt) / 60000);
-      // Over three hours means the app was left open, not a long session.
-      s.durationMin = (mins > 0 && mins <= 180) ? mins : null;
+    if(s.done && s.startedAt && s.lastLogAt){
+      /* First entry to last entry. Measuring up to the "complete" tap
+         counted everything after the session too — the walk, dinner,
+         whenever you got round to opening the app again. */
+      const mins = Math.round((s.lastLogAt - s.startedAt) / 60000);
+      s.durationMin = (mins >= 1 && mins <= 180) ? mins : null;
     }
     saveSession(s);
     db.classList.toggle('is-done', s.done);
@@ -2390,7 +2418,10 @@ function bindInputsOnce(){
 
 function startClock(){
   const s = ensureSession(viewDate);
-  if(!s.startedAt && !s.done){ s.startedAt = Date.now(); saveSession(s); }
+  if(s.done) return;
+  if(!s.startedAt) s.startedAt = Date.now();
+  s.lastLogAt = Date.now();      // the session ends at your last entry
+  saveSession(s);
 }
 
 function paintStepBar(){
@@ -2406,6 +2437,9 @@ function commit(date){
   const s = ensureSession(date);
   s.day = dayKeyFor(date);
   let touched = false;
+  // If the session is already on disk, every edit must be saved — including
+  // one that empties a field. Otherwise a mis-typed value can't be cleared.
+  const existed = !!getSession(date);
   document.querySelectorAll('#view-today .block').forEach(sec => {
     const id = sec.dataset.block;
     const cur = s.blocks[id] || {};
@@ -2424,15 +2458,18 @@ function commit(date){
     const rp = num('[data-reps]', 0, 999);    if(rp !== undefined) cur.reps = rp;
     const ct = num('[data-contacts]', 0, 999); if(ct !== undefined) cur.contacts = ct;
     const bl = sec.querySelector('[data-bell]'); if(bl) cur.bell = +bl.value;
-    if(hasData(cur)) touched = true;
-    s.blocks[id] = cur;
+    /* Only keep blocks that actually hold something. Writing an entry for
+       every rendered block meant one typed rep created six phantom records,
+       which then showed up in history as rows with no value. */
+    if(hasData(cur)){ touched = true; s.blocks[id] = cur; }
+    else if(s.blocks[id]){ delete s.blocks[id]; touched = true; }
   });
   const st = document.getElementById('steps');
   s.steps = st && st.value !== '' ? Math.min(100000, Math.max(0, +st.value)) : null;
   const nt = document.getElementById('notes');
   s.notes = nt ? nt.value : '';
   if(s.steps != null || s.notes || s.done) touched = true;
-  if(touched) saveSession(s);
+  if(touched || existed) saveSession(s);
 }
 
 function hasData(b){
@@ -2494,7 +2531,27 @@ document.addEventListener('click', e => {
   const opts = DAY_KEYS.map(k => '<button class="dayopt' + (k===cur?' on':'') + '" data-day="' + k + '">' + cap(k) + ' — ' + PLAN[k].name + '</button>').join('');
   openSheet('Run a different session today', opts);
   document.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
-    const s = ensureSession(viewDate); s.day = b.dataset.day; saveSession(s);
+    const s = ensureSession(viewDate);
+    const target = b.dataset.day;
+    const keep = PLAN[target].blocks.map(x => x.id);
+    const orphans = Object.keys(s.blocks || {}).filter(k => !keep.includes(k) && hasData(s.blocks[k]));
+    if(orphans.length){
+      // Switching days would strand this data under a session it does not
+      // belong to, which is how a Thursday ended up listing Monday's lifts.
+      openSheet('Switch to ' + cap(target) + '?',
+        '<p class="hint">This day already has ' + orphans.length + ' logged ' +
+        (orphans.length === 1 ? 'exercise' : 'exercises') + ' from ' + PLAN[s.day].name +
+        ': ' + orphans.map(blockName).join(', ') + '. Switching removes ' +
+        (orphans.length === 1 ? 'it' : 'them') + '.</p>' +
+        '<button class="act danger" id="swapok">Switch and discard</button>');
+      document.getElementById('swapok').onclick = () => {
+        orphans.forEach(k => delete s.blocks[k]);
+        s.day = target; saveSession(s); closeSheet(); renderToday();
+      };
+      return;
+    }
+    Object.keys(s.blocks || {}).forEach(k => { if(!keep.includes(k)) delete s.blocks[k]; });
+    s.day = target; saveSession(s);
     closeSheet(); renderToday();
   });
 });
@@ -2508,6 +2565,11 @@ const METRICS = [
   {key:'steps',   label:'Steps',              get:s => s.steps},
   {key:'dur',     label:'Session length (min)', get:s => s.durationMin}
 ];
+/* Human names for block ids, resolved across every day in the plan. */
+const BLOCK_NAMES = {};
+Object.values(PLAN).forEach(p => p.blocks.forEach(b => { BLOCK_NAMES[b.id] = b.name; }));
+function blockName(id){ return BLOCK_NAMES[id] || id; }
+
 function pick(s,b,f){ return s.blocks && s.blocks[b] ? s.blocks[b][f] : null; }
 function sum(a){ if(!Array.isArray(a)) return null; const v = a.filter(x => typeof x === 'number'); return v.length ? v.reduce((x,y)=>x+y,0) : null; }
 
@@ -2570,14 +2632,17 @@ function renderHistory(){
     let t = '<dl>';
     Object.keys(s.blocks||{}).forEach(k => {
       const v = s.blocks[k]; const parts = [];
-      if(v.sets) parts.push(v.sets.filter(x=>x!=null).join(' · '));
+      const sets = Array.isArray(v.sets) ? v.sets.filter(x => x != null) : [];
+      if(sets.length) parts.push(sets.join(' · '));
       if(v.weight != null) parts.push(v.weight + ' kg');
       if(v.rounds != null) parts.push(v.rounds + ' rounds');
       if(v.bell != null) parts.push(v.bell + ' kg');
       if(v.minutes != null) parts.push(v.minutes + ' min');
       if(v.reps != null) parts.push(v.reps + ' reps');
       if(v.contacts != null) parts.push(v.contacts + ' contacts');
-      if(parts.length) t += '<dt>' + k + '</dt><dd>' + parts.join(' — ') + '</dd>';
+      // A ticked block with no numbers is still work you did.
+      if(!parts.length && v.done) parts.push('done');
+      if(parts.length) t += '<dt>' + blockName(k) + '</dt><dd>' + parts.join(' — ') + '</dd>';
     });
     if(s.steps) t += '<dt>steps</dt><dd>' + s.steps + '</dd>';
     if(s.durationMin) t += '<dt>duration</dt><dd>' + s.durationMin + ' min</dd>';
